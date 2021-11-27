@@ -6,7 +6,7 @@ output: pdf_document
 <style type="text/css">
 
 body{
-   font-size: 16px;
+   font-size: 20px;
 }
 
 h1.title {
@@ -20,7 +20,6 @@ h1 { /* Header 1 */
 }
 
 </style>
-
 
 
 ```{r setup, include=FALSE}
@@ -107,7 +106,8 @@ dagify(y ~ x, x ~ z, w ~ z, y ~ w) %>%
   geom_dag_text() +
   theme_dag() 
 ```
-Here, we are estimating the effect of smoking cigarette (x) on lung function (y). Weight, w, is also measured and we also know the type of jobs affect both weight and the choice to smoke cigarette. However, the study did not record the type of jobs. Though, z is not recorded, we can estimate $P(Y = y \mid do(X = x))$ using the backdoor criterion. Here, w is not a descendant of x and also blocks the backdoor path $x\ \leftarrow \ z\  \rightarrow \ w\  \rightarrow \ y$. 
+
+Here, we want to estimate the effect of smoking cigarette (x) on lung function (y). Weight, w, is also measured and we also know the type of jobs affect both weight and the choice to smoke cigarette. However, the study did not record the type of jobs. Though, z is not recorded, we can estimate $P(Y = y \mid do(X = x))$ using the backdoor criterion. Here, w is not a descendant of x and also blocks the backdoor path $x\ \leftarrow \ z\  \rightarrow \ w\  \rightarrow \ y$. 
 
 Thus, $P(Y = y \mid do(X = x))$ = $\sum_{w}^{} P(Y=y \mid X=x,W=w)P(W = w)$
 
