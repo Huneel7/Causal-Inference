@@ -1,6 +1,6 @@
 ---
 title: "Backdoor Criterion"
-output: html_document
+output: pdf_document
 ---
 
 <style type="text/css">
@@ -68,6 +68,7 @@ where probability distribution $P(x_{i} \mid pa(x_{i}, G^{'}))$ is
 
 $P(x_{i} \mid pa(x_{i}, G^{'}) = \begin{cases} P(x_{i} \mid pa(x_{i}, G))\ \ \ \ \  if\ F_{i} = idle \\\\ 1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ F_{i} = do(x^{'}_{i}) \ and \ x_{i} = x^{'}_{i} \\\\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ F_{i} = do(x^{'}_{i}) \ and \ x_{i} \neq x^{'}_{i} \end{cases}$
 
+\newpage
 
 # Proof for $P(y \mid do(x)) = \sum_{z}^{} P(y \mid z,x)P(z)$:
 $P(y \mid do(x))$
