@@ -44,7 +44,7 @@ If a set of variables Z satisfies the backdoor criterion for X and Y, then the c
 
 $P(Y=y \mid do(X=x))$ = $\sum_{z}^{} P(Y=y \mid X=x,Z= z)P(Z = z)$
 
-Here, I introduce regime indicator ($F_{X}$) for proof and an example of graphical model
+Introducing regime indicator ($F_{X}$) which takes values in {do$(x^{'})$, idle (no intervention)} for proof and an example of graphical model, $G^{'}$. Note that a graphical model without $F_{X}$ is $G^{}$ and $G^{'} = G \bigcup${$F_{i}\rightarrow X_{i}$}.  
 
 ```{r, echo = FALSE, message = FALSE, fig.width=10, fig.height=3.2}
 g <- dagitty('dag {
@@ -62,12 +62,17 @@ ggdag(g)+theme_dag_blank()
 
 $\\$
 $\\$
-where probability distribution $P(x_{i} \mid pa(x_{i}, G^{'}))$ is
+The conditonal probability, $P(x_{i} \mid pa(x_{i}, G^{'}))$, introduces the new parent set of Xi, $PA^{'}_{i} = PA_{i} \bigcup${$F_{i}$}
 
 $\\$
 $\\$
 
-$P(x_{i} \mid pa(x_{i}, G^{'}) = \begin{cases} P(x_{i} \mid pa(x_{i}, G))\ \ \ \ \  if\ F_{i} = idle \\\\ 1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ F_{i} = do(x^{'}_{i}) \ and \ x_{i} = x^{'}_{i} \\\\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ F_{i} = do(x^{'}_{i}) \ and \ x_{i} \neq x^{'}_{i} \end{cases}$
+$P(x_{i} \mid pa(x_{i}, G^{'})) = \begin{cases} P(x_{i} \mid pa(x_{i}, G))\ \ \ \ \  if\ F_{i} = idle \\\\ 1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ F_{i} = do(x^{'}_{i}) \ and \ x_{i} = x^{'}_{i} \\\\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ F_{i} = do(x^{'}_{i}) \ and \ x_{i} \neq x^{'}_{i} \end{cases}$
+
+$\\$
+$\\$
+
+Now, we are ready for proof!
 
 \newpage
 
@@ -91,7 +96,7 @@ A necessary and sufficient condition for a probability distribution P to be Mark
 
     By this theorem, $F_{x} \perp\!\!\!\perp Z$
 
-(2) $F_{x} \ and \ Y$ are d-separated, conditional on Z and X $=>$ $F_{x} \perp\!\!\!\perp Y \mid Z,X$
+(2) By backdoor condition, $F_{x} \ and \ Y$ are d-separated, conditional on Z and X $=>$ $F_{x} \perp\!\!\!\perp Y \mid Z,X$
 
 # PA(x) always satisfies backdoor criterion:
 $P(y \mid pa(x)) = \sum_{z}^{} P(y \mid pa(x),x)P(pa(x))$
@@ -170,7 +175,7 @@ control_for(g3_2, c("W", "T")) %>%
   theme_dag() 
 ```
 
-Here, we can see the backdoor path is blocked when adjusting for W and T. 
+We can see the backdoor path is blocked when adjusting for W and T. 
 
 Thus, $P(Y = y \mid do(X = x), W = w)$ = $\sum_{t}^{} P(Y=y \mid X=x,W=w, T=t)P(T = t \mid W = w)$
 
@@ -218,7 +223,7 @@ control_for(g4_2, c("L1")) %>%
   theme_dag() 
 ```
 
-Here, adjusting for $L_{1}$ blocks the backdoor path.
+Adjusting for $L_{1}$ blocks the backdoor path.
 
 Thus, $P(Y = y \mid do(X = x))$ = $\sum_{l_{1}}^{} P(Y=y \mid X=x,L_{1}=l_{1})P(L_{1}=l_{1})$
 
@@ -243,7 +248,7 @@ g4_3 <- dagitty('dag {
 control_for(g4_3, NULL) %>%
   ggdag_adjust() + theme_dag() 
 ```
-Here, there is no backdoor path by adding $L_{1}$ variable.
+There is no backdoor path by adding $L_{1}$ variable.
 
 Thus, $P(Y = y \mid do(X = x))$ = $P(Y=y \mid X=x)$
 
@@ -270,7 +275,7 @@ control_for(g4_4, c("L", "L2")) %>%
   theme_dag() 
 ```
 
-Here, adjusting for L and L2 blocks the backdoor path.
+Adjusting for L and L2 blocks the backdoor path.
 
 Thus, $P(Y = y \mid do(X = x))$ = $\sum_{l,l_{2}}^{} P(Y=y \mid X=x, L=l,L_{2}=l_{2})P(L=l,L_{2}=l_{2})$
 
@@ -297,6 +302,10 @@ control_for(g4_5, c("L", "L2")) %>%
   theme_dag() 
 ```
 
-Here, adjusting for L and L2 blocks the backdoor path.
+Adjusting for L and L2 blocks the backdoor path.
 
 Thus, $P(Y = y \mid do(X = x))$ = $\sum_{l,l_{2}}^{} P(Y=y \mid X=x, L=l,L_{2}=l_{2})P(L=l,L_{2}=l_{2})$
+
+
+
+
