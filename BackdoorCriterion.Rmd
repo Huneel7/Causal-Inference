@@ -305,7 +305,3 @@ control_for(g4_5, c("L", "L2")) %>%
 Adjusting for L and L2 blocks the backdoor path.
 
 Thus, $P(Y = y \mid do(X = x))$ = $\sum_{l,l_{2}}^{} P(Y=y \mid X=x, L=l,L_{2}=l_{2})P(L=l,L_{2}=l_{2})$
-
-
-
-
