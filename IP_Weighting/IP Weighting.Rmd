@@ -59,13 +59,13 @@ ggdag(g)+theme_dag_blank()
 
 $P(Y=y \mid do(X=x))$ 
 
-$= \ P_{m}(Y=y \mid X=x))$ (by definition)
+$= \ P_{m}(Y=y \mid X=x) \ \ $ (by definition) 
 
-$= \ \sum_{z}^{} P_{m}(Y=y \mid X=x,Z=z)P(Z=z \mid X=x)$ (Bayes' rule)
+$= \ \sum_{z}^{} P_{m}(Y=y \mid X=x,Z=z)P(Z=z \mid X=x) \ \ $ (Bayes' rule)
 
-$= \ \sum_{z}^{} P_{m}(Y=y \mid X=x,Z=z)P(Z=z)$ ($X \perp\!\!\!\perp Z$)
+$= \ \sum_{z}^{} P_{m}(Y=y \mid X=x,Z=z)P(Z=z) \ \ $ ($X \perp\!\!\!\perp Z$)
 
-$= \ \sum_{z}^{} P(Y=y \mid X=x,Z=z)P(Z=z)$ ($X \perp\!\!\!\perp Z$) (invariance relations)
+$= \ \sum_{z}^{} P(Y=y \mid X=x,Z=z)P(Z=z) \ \ $ (invariance relations)
 
 $= \ \sum_{z}^{} \frac{P(Y=y \mid X=x,Z=z)P(X = x \mid Z=z)P(Z=z)}{P(X = x \mid Z=z)}$
 
@@ -74,6 +74,11 @@ $= \ \sum_{z}^{} \frac{ P(Y=y, X=x,Z=z)}{P(X = x \mid Z=z)}$
 $\\$
 
 From this result, we can see that postintervention causal effect can be computed by multiplying the pretreatment distribution of (X,Y,Z) by a factor $1/P(X = x \mid Z=z)$, propensity score. Namely, each case $(Y=y, X=x, Z=z)$in the population should boost its probability by the inverse conditional probability of assignment to a treatment condition given a set of observed covariates. This is the reason why this method is called "inverse probability weighting."
+
+```{r}
+
+```
+
 
 \newpage
 
