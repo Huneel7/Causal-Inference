@@ -98,7 +98,7 @@ A necessary and sufficient condition for a probability distribution P to be Mark
 
 (2) By backdoor condition, $F_{x} \ and \ Y$ are d-separated, conditional on Z and X $=>$ $F_{x} \perp\!\!\!\perp Y \mid Z,X$
 
-# PA(x) always satisfies backdoor criterion:
+# PA(X) always satisfies backdoor criterion:
 $P(y \mid pa(x)) = \sum_{z}^{} P(y \mid pa(x),x)P(pa(x))$
 
 # Backdoor Criterion Example1:
