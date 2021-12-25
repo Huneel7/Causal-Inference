@@ -101,7 +101,7 @@ A necessary and sufficient condition for a probability distribution P to be Mark
 # PA(X) always satisfies backdoor criterion:
 $P(y \mid pa(x)) = \sum_{z}^{} P(y \mid pa(x),x)P(pa(x))$
 
-# Backdoor Criterion Example1:
+# Backdoor Criterion Example 1:
 ```{r, echo = FALSE, message = FALSE, fig.width=4, fig.height=3.2}
 set.seed(777)
 dagify(y ~ x, x ~ z, w ~ z, y ~ w) %>%
@@ -132,7 +132,7 @@ Now assume z is observed as well as w. Then, blocking the backdoor path can be d
 
 $P(Y = y \mid do(X = x))$ = $\sum_{w}^{} P(Y=y \mid X=x,W=w)P(W = w)$ = $\sum_{w}^{} P(Y=y \mid X=x,Z=z)P(Z = z)$
 
-# Backdoor Criterion Example2:
+# Backdoor Criterion Example 2:
 ```{r, echo = FALSE, message = FALSE, fig.width=7, fig.height=3.5}
 g3 <- dagitty('dag {
     Z [pos="-2,1"]
@@ -179,7 +179,7 @@ We can see the backdoor path is blocked when adjusting for W and T.
 
 Thus, $P(Y = y \mid do(X = x), W = w)$ = $\sum_{t}^{} P(Y=y \mid X=x,W=w, T=t)P(T = t \mid W = w)$
 
-# Backdoor Criterion Example3:
+# Backdoor Criterion Example 3:
 ```{r, echo = FALSE, message = FALSE, fig.width=5, fig.height=3.3}
 g4 <- dagitty('dag {
     L [pos="1,1"]
@@ -200,7 +200,7 @@ ggdag(g4) + theme_dag_blank()
 
 Here, we want to estimate the effect of X on Y. Conditioning on L would block the backdoor path,  $X\ \leftarrow \ L\   \leftarrow \ U_{1}\  \rightarrow \ Y$, but would simultaneously open a new backdoor path, $X\ \rightarrow \ U_{2}\ \rightarrow \ L\  \leftarrow \ U_{1}\  \rightarrow \ Y$. Namely, the attempt to block the confounding path brings about a selection bias. Here, A solution would be to measure either (i) a variable $L_{1}$ between $U_{1}$ and either A or Y, or (ii) a variable $L_{2}$ between $u_{2}$ and either A or L. 
 
-# Example3 Solution1 ($L_{1}$ between $U_{1}$ and Y):
+# Example 3 Solution 1 ($L_{1}$ between $U_{1}$ and Y):
 ```{r, echo = FALSE, message = FALSE, fig.width=8, fig.height=3.3}
 g4_2 <- dagitty('dag {
     L [pos="1,1"]
@@ -227,7 +227,7 @@ Adjusting for $L_{1}$ blocks the backdoor path.
 
 Thus, $P(Y = y \mid do(X = x))$ = $\sum_{l_{1}}^{} P(Y=y \mid X=x,L_{1}=l_{1})P(L_{1}=l_{1})$
 
-# Example3 Solution1 ($L_{1}$ between $U_{1}$ and X):
+# Example 3 Solution 1 ($L_{1}$ between $U_{1}$ and X):
 ```{r, echo = FALSE, message = FALSE, fig.width=8, fig.height=3.3}
 g4_3 <- dagitty('dag {
     L [pos="1,1"]
@@ -252,7 +252,7 @@ There is no backdoor path by adding $L_{1}$ variable.
 
 Thus, $P(Y = y \mid do(X = x))$ = $P(Y=y \mid X=x)$
 
-# Example3 Solution2 ($L_{2}$ between $U_{2}$ and X):
+# Example 3 Solution 2 ($L_{2}$ between $U_{2}$ and X):
 ```{r, echo = FALSE, message = FALSE, fig.width=8, fig.height=3.3}
 g4_4 <- dagitty('dag {
     L [pos="1,1"]
@@ -279,7 +279,7 @@ Adjusting for L and L2 blocks the backdoor path.
 
 Thus, $P(Y = y \mid do(X = x))$ = $\sum_{l,l_{2}}^{} P(Y=y \mid X=x, L=l,L_{2}=l_{2})P(L=l,L_{2}=l_{2})$
 
-# Example3 Solution2 ($L_{2}$ between $U_{2}$ and L):
+# Example 3 Solution 2 ($L_{2}$ between $U_{2}$ and L):
 ```{r, echo = FALSE, message = FALSE, fig.width=9, fig.height=5}
 g4_5 <- dagitty('dag {
     L [pos="1,1"]
