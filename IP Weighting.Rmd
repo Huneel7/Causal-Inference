@@ -1,0 +1,87 @@
+---
+title: "Inverse Probability Weighting"
+output: pdf_document
+---
+
+<style type="text/css">
+
+body{
+   font-size: 20px;
+}
+
+h1.title {
+  font-size: 25px;
+  color: DarkRed;
+}
+
+h1 { /* Header 1 */
+  font-size: 20px;
+  color: DarkBlue;
+}
+
+</style>
+
+```{r, echo = FALSE, message = FALSE}
+library(dagitty)
+library(ggdag)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+```
+
+In backdoor criterion part, we learned that PA(X) always satisfies backdoor criterion. Hence, we can represent postintervention causal effect as such:
+
+$P(Y=y \mid do(X=x))$ = $\sum_{z}^{} P(Y=y \mid X=x,PA=z)P(PA=z)$
+
+Modifying this equation, we can obtain the following:
+
+$P(Y=y \mid do(X=x))$ = $\sum_{z}^{}\frac{ P(Y=y, X=x, PA=z)}{P(X = x \mid PA=z)}$
+
+The factor ${P(X = x \mid PA=z)}$ in the denominator is known as the "propensity score."
+
+$\\$
+
+Now, assume we have a graphical model with an intervention, do(X=x), on the model. 
+
+
+```{r, echo = FALSE, message = FALSE, fig.width=10, fig.height=3.2}
+g <- dagitty('dag {
+    X [pos="0,0"]
+    Y [pos="2,0"]
+    Z [pos="1,1"]
+    X -> Y 
+    Z -> Y
+}')
+
+ggdag(g)+theme_dag_blank()
+```
+
+
+$P(Y=y \mid do(X=x))$ 
+
+$= \ P_{m}(Y=y \mid X=x))$ (by definition)
+
+$= \ \sum_{z}^{} P_{m}(Y=y \mid X=x,Z=z)P(Z=z \mid X=x)$ (Bayes' rule)
+
+$= \ \sum_{z}^{} P_{m}(Y=y \mid X=x,Z=z)P(Z=z)$ ($X \perp\!\!\!\perp Z$)
+
+$= \ \sum_{z}^{} P(Y=y \mid X=x,Z=z)P(Z=z)$ ($X \perp\!\!\!\perp Z$) (invariance relations)
+
+$= \ \sum_{z}^{} \frac{P(Y=y \mid X=x,Z=z)P(X = x \mid Z=z)P(Z=z)}{P(X = x \mid Z=z)}$
+
+$= \ \sum_{z}^{} \frac{ P(Y=y, X=x,Z=z)}{P(X = x \mid Z=z)}$
+
+$\\$
+
+From this result, we can see that postintervention causal effect can be computed by multiplying the pretreatment distribution of (X,Y,Z) by a factor $1/P(X = x \mid Z=z)$, propensity score. Namely, each case $(Y=y, X=x, Z=z)$in the population should boost its probability by the inverse conditional probability of assignment to a treatment condition given a set of observed covariates. This is the reason why this method is called "inverse probability weighting."
+
+\newpage
+
+\newpage
+
+# Reference
+
+Pearl, J., Glymour, M., &amp; Jewell, N. P. (2019). Causal inference in statistics a primer. Wiley. 
+$\\$
+
+Hernán MA, Robins JM (2020). Causal Inference: What If. Boca Raton: Chapman & Hall/CRC.
