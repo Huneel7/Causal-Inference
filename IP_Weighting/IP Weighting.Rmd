@@ -112,8 +112,8 @@ p.qsmk.obs <-
 
 nhefs_uncensored <-
   nhefs_uncensored %>%
-  mutate(w = 1/p.qsmk.obs,
-         ps = p.qsmk.obs) #computing propensity score
+  mutate(w = 1/p.qsmk.obs, #inverse propensity score (weight)
+         ps = p.qsmk.obs) #propensity score
 
 nhefs_uncensored %>%
   ggplot(aes(ps, group = qsmk, fill = factor(qsmk))) + 
@@ -124,7 +124,7 @@ nhefs_uncensored %>%
        title = "Distribution of Propensity Score for Quitters vs Non-quitters")
 ```
 
-## Getting coefficients of the marginal structural model
+## Computing a coefficient (Beta 1) of the marginal structural model and its Confidence Interval
 ```{r}
 msm.w <- geeglm(
   wt82_71 ~ qsmk,
@@ -136,9 +136,9 @@ msm.w <- geeglm(
 
 beta <- coef(msm.w)
 SE <- coef(summary(msm.w))[, 2]
-lcl <- beta - qnorm(0.975) * SE
-ucl <- beta + qnorm(0.975) * SE
-cbind(beta, lcl, ucl) 
+Lower_CI <- beta - qnorm(0.975) * SE
+Upper_CI <- beta + qnorm(0.975) * SE
+cbind(beta, Lower_CI, Upper_CI) 
 ```
 
 
