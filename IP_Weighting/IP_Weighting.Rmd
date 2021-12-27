@@ -351,24 +351,26 @@ $LOR_{A=1 \ vs \ A=0} = log\left(\frac{(0.47/0.53)}{(0.297/0.703)}\right) = 0.74
 ```{r, echo = FALSE, warning = FALSE}
 exposureModel <- glm(A ~ L, data = df, family = "binomial")
 
-df[, pA := predict(exposureModel, type = "response")]
+df.obs <-
+  ifelse(df$A == 0,
+         1 - predict(exposureModel, type = "response"),
+         predict(exposureModel, type = "response"))
 
-df2 <- defDataAdd(varname = "pA_actual", 
-                    formula = "(A * pA) + ((1 - A) * (1 - pA))", 
-                    dist = "nonrandom")
-df2 <- defDataAdd(df2, varname = "IPW", 
-                    formula = "1/pA_actual", 
-                    dist = "nonrandom")
-
-df3 <- addColumns(df2, df)
+df_with_weight <-
+  df %>%
+  mutate(w = 1/df.obs, #inverse propensity score (weight)
+         ps = df.obs) #propensity score
 ```
 
 ## Comparing the result with coefficient of estimate ($Beta_{1}$) from a logistic model 
 ```{r, warning = FALSE}
-tidy(glm(Y ~ A , data = df3, family = "binomial", weights = IPW)) 
+msm.w <- glm(Y ~ A , data = df_with_weight, family = "binomial", weights = w)
+Beta <- coef(msm.w)
+cbind(Beta)
 ```
 
 Through IP weighting method, we have been able to compute the log odds ratio(Y=1) very close to true odds ratio without taking into account L. Important thing to note here is that the IP weighting is only valid when L satisfies the backdoor criterion. 
+
 
 \newpage
 
