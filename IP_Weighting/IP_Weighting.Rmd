@@ -416,7 +416,7 @@ nhefs_uncensored %>%
        title = "Distribution of Propensity Score for Quitters vs Non-quitters")
 ```
 
-## Computing a coefficient $Beta_{1}$ of the marginal structural model
+## Computing the coefficient of $Beta_{1}$ of the marginal structural model
 ```{r}
 msm.w <- geeglm(
   wt82_71 ~ qsmk,
@@ -433,7 +433,7 @@ Upper_CI <- beta + qnorm(0.975) * SE
 cbind(beta, Lower_CI, Upper_CI) 
 ```
 
-
+Here, the parameter estimate, $Beta_{1}$, is 3.4. This estimated value implies that quitting smoking $(A=1)$ increases weight $(Y)$ by 3.4kg on average.  
 
 \newpage
 
