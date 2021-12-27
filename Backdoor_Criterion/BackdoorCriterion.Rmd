@@ -128,9 +128,12 @@ dagify(y ~ x, x ~ z, w ~ z, y ~ w) %>%
   theme_dag() 
 ```
 
+
 Now assume z is observed as well as w. Then, blocking the backdoor path can be done by adjusting for either z or w. This is useful because the choice can be made depending on which variable is more convenient to measure. 
 
-$P(Y = y \mid do(X = x))$ = $\sum_{w}^{} P(Y=y \mid X=x,W=w)P(W = w)$ = $\sum_{w}^{} P(Y=y \mid X=x,Z=z)P(Z = z)$
+$P(Y = y \mid do(X = x))$ = 
+
+$\sum_{w}^{} P(Y=y \mid X=x,W=w)P(W = w)$ = $\sum_{w}^{} P(Y=y \mid X=x,Z=z)P(Z = z)$
 
 # Backdoor Criterion Example 2:
 ```{r, echo = FALSE, message = FALSE, fig.width=7, fig.height=3.5}
@@ -151,6 +154,7 @@ g3 <- dagitty('dag {
 
 ggdag(g3) + theme_dag_blank()
 ```
+
 
 Here, we want to estimate the effect of X on Y for a specific value w of W. Though W is a collider and conditioning on W opens a path, T (not a descendant of X) can be used to block the spurious path $X\ \rightarrow \ W\ \leftarrow \ Z\  \leftrightarrow \ T\  \rightarrow \ Y$.
 
