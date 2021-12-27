@@ -1,0 +1,445 @@
+---
+title: "Inverse Probability Weighting"
+output: pdf_document
+---
+
+<style type="text/css">
+
+body{
+   font-size: 20px;
+}
+
+h1.title {
+  font-size: 25px;
+  color: DarkRed;
+}
+
+h1 { /* Header 1 */
+  font-size: 20px;
+  color: DarkBlue;
+}
+
+</style>
+
+```{r, echo = FALSE, message = FALSE}
+library(dagitty)
+library(ggdag)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(geepack)
+library(broom)
+library(simstudy)
+library(kableExtra)
+
+```
+
+From backdoor criterion part, we learned that PA(X) always satisfies backdoor criterion. Hence, we can represent postintervention causal effect as such:
+
+$P(Y=y \mid do(X=x))$ = $\sum_{z}^{} P(Y=y \mid X=x,PA=z)P(PA=z)$
+
+Modifying this equation, we can obtain the following:
+
+$P(Y=y \mid do(X=x))$ = $\sum_{z}^{}\frac{ P(Y=y, X=x, PA=z)}{P(X = x \mid PA=z)}$
+
+The factor ${P(X = x \mid PA=z)}$ in the denominator is known as the "propensity score."
+
+$\\$
+
+Now, assume we have a graphical model with an intervention, do(X=x), on the model. 
+
+
+```{r, echo = FALSE, message = FALSE, fig.width=10, fig.height=3.2}
+g <- dagitty('dag {
+    X [pos="0,0"]
+    Y [pos="2,0"]
+    Z [pos="1,1"]
+    X -> Y 
+    Z -> Y
+}')
+
+ggdag(g) + theme_dag_blank()
+```
+
+
+$P(Y=y \mid do(X=x))$ 
+
+$= \ P_{m}(Y=y \mid X=x) \ \ $ (by definition) 
+
+$= \ \sum_{z}^{} P_{m}(Y=y \mid X=x,Z=z)P(Z=z \mid X=x) \ \ $ (Bayes' rule)
+
+$= \ \sum_{z}^{} P_{m}(Y=y \mid X=x,Z=z)P(Z=z) \ \ $ ($X \perp\!\!\!\perp Z$)
+
+$= \ \sum_{z}^{} P(Y=y \mid X=x,Z=z)P(Z=z) \ \ $ (invariance relations)
+
+$= \ \sum_{z}^{} \frac{P(Y=y \mid X=x,Z=z)P(X = x \mid Z=z)P(Z=z)}{P(X = x \mid Z=z)}$
+
+$= \ \sum_{z}^{} \frac{ P(Y=y, X=x,Z=z)}{P(X = x \mid Z=z)}$
+
+$\\$
+
+From this result, we can see that postintervention causal effect can be computed by multiplying the pretreatment distribution of (X,Y,Z) by a factor $1/P(X = x \mid Z=z)$, propensity score. Namely, each case $(Y=y, X=x, Z=z)$in the population receives a weight of the inverse of the conditional probability of receiving the treatment level given a set of observed covariates. This is the reason why this method is called "inverse probability weighting."
+
+
+\newpage
+
+## Creating data and computing true log odds ratio ($B_{1}$)
+```{r}
+pre_data <- defData(varname = "L", formula = 0.37, 
+                dist = "binary")
+pre_data <- defData(pre_data, varname = "Y0", formula = "-1.7 + 1.77*L", 
+                dist = "binary", link = "logit")
+pre_data <- defData(pre_data, varname = "Y1", formula = "-0.7 + 1.77*L", 
+                dist = "binary", link = "logit")
+pre_data <- defData(pre_data, varname = "A", formula = "0.27 + 0.37 * L", 
+                dist = "binary")
+pre_data <- defData(pre_data, varname = "Y", formula = "Y0 + A * (Y1 - Y0)", 
+                dist = "nonrandom")
+
+set.seed(77777)
+df <- genData(1000, pre_data)
+
+odds <- function(p) {
+    return((p/(1 - p)))
+}
+
+log(odds(mean(df$Y1)) / odds(mean(df$Y0)))
+```
+
+## Generating Joint Probability Distribution P(Y,A,L)
+```{r, message = FALSE}
+table <-
+  df %>%
+  group_by(L,A,Y) %>%
+  summarise(percent_population = n()/1000)  %>%
+  kbl(
+      caption     = "Joint Probability Distribution P(Y,A,L)"
+    , col.names   = c("L", "A", "Y", "% of Population")
+    , format.args = list(big.mark = ',')
+  ) %>%
+  # further map to a more professional-looking table
+  kable_paper("striped", full_width = F)
+```
+
+\newpage
+
+```{r, echo = FALSE}
+table
+```
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+require("Rgraphviz")
+ 
+# Change the three variables below to match your actual values
+# These are the values that you can change for your own probability tree
+# From these three values, other probabilities (e.g. prob(b)) will be calculated 
+ 
+# Probability of a
+a <- 620
+notA <- 1000 - a
+ 
+# Probability (b | a)
+bGivena <- 451
+ 
+# Probability (b | ¬a)
+bGivenNota <- 137
+ 
+###################### Everything below here will be calculated
+ 
+# Calculate the rest of the values based upon the 3 variables above
+notbGivena <- a-bGivena
+notbGivenNota <- notA-bGivenNota
+ 
+ 
+# These are the labels of the nodes on the graph
+# To signify "Not A" - we use A' or A prime 
+ 
+node1 <- "L"
+node2 <- "L=0"
+node3 <- "L=1"
+node4 <- "73"
+node5 <- "54"
+node6 <- "71"
+node7 <- "174"
+nodeNames <- c(node1,node2,node3,node4,node5,node6, node7)
+ 
+rEG <- new("graphNEL", nodes = nodeNames, edgemode = "directed")
+
+ 
+# Draw the "lines" or "branches" of the probability Tree
+rEG <- addEdge(nodeNames[1], nodeNames[2], rEG, 1)
+rEG <- addEdge(nodeNames[1], nodeNames[3], rEG, 1)
+rEG <- addEdge(nodeNames[2], nodeNames[4], rEG, 1)
+rEG <- addEdge(nodeNames[2], nodeNames[5], rEG, 1)
+rEG <- addEdge(nodeNames[3], nodeNames[6], rEG, 1)
+rEG <- addEdge(nodeNames[3], nodeNames[7], rEG, 1)
+ 
+eAttrs <- list()
+ 
+q<-edgeNames(rEG)
+ 
+# Add the probability values to the the branch lines
+ 
+eAttrs$label <- c(toString(a),toString(notA),
+ toString(bGivena), toString(notbGivena),
+ toString(bGivenNota), toString(notbGivenNota))
+names(eAttrs$label) <- c(q[1],q[2], q[3], q[4], q[5], q[6])
+edgeAttrs<-eAttrs
+ 
+# Set the color, etc, of the tree
+attributes<-list(node=list(label = "foo", fillcolor = "white", fontsize = "12"),
+ edge=list(color = "black"),graph = list(rankdir="LR"))
+ 
+#Plot the probability tree using Rgraphvis
+plot(rEG, edgeAttrs = eAttrs, attrs = attributes)
+ 
+#Add the probability values
+
+text(320,60,"(A=1)",cex = 1)
+
+text(340,150,"(A=0)",cex = 1)
+
+text(340,190,"(A=1)",cex = 1)
+
+text(340,280,"(A=0)",cex = 1)
+
+text(420,330,"N(Y=1|A,L)",cex = 1)
+ 
+```
+
+## Computing the marginal causal effect ignoring L before applying IP weights
+
+$P(Y = 1 \mid A=0) = \frac {(451 \times \frac{73}{451} + 137 \times \frac{71}{137})}{(451 + 137)} = 0.245$
+
+$P(Y = 1 \mid A=1) = \frac {(169 \times \frac{54}{169} + 243 \times \frac{174}{243})}{(169+243)} = 0.186$ = 0.553
+
+## Computing crude log odds ratio
+$LOR_{A=1 \ vs \ A=0} = log\left(\frac{(0.553/0.447)}{(0.245/0.755)}\right) = 1.34$
+
+## Comparing the result with coefficient of estimate ($Beta_{1}$) from a logistic model
+```{r}
+glm(Y ~ A, data = df, family ="binomial") %>% broom::tidy()
+```
+
+It is to be observed that the crude log odds ratio is the same as the coefficient of estimate. As expected, however, the crude log odds ratio is biased because we did not take into account the confounder L. The true odds ratio is 0.74 whereas the crude estimate is 1.34. 
+
+
+## Computing Propensity Score 
+
+1. $P(A=0 \mid L=0) = \frac{451}{620}$
+
+2. $P(A=1 \mid L=0) = \frac{169}{620}$
+
+3. $P(A=0 \mid L=1) = \frac{137}{380}$
+
+4. $P(A=1 \mid L=1) = \frac{243}{380}$
+
+Let weight $W^{A} = \frac{1}{P(A \mid L)}$
+
+$W^{A}_{1} = 1.37$
+
+$W^{A}_{2} = 3.67$ 
+
+$W^{A}_{3} = 2.77$
+
+$W^{A}_{4} = 1.56$
+
+## Applying IP Weights to each individual
+If we apply IP Weights to each individual, the hypothetical population becomes double the size of the original population and it's called the pseudo-population. This is because every individual appears both treated and untreated in the pseudo-population.
+
+$N(Y=1 \mid A = 0, L=0) \times W^{A}_{1} = 73 \times 1.37 = 100$
+
+$N(Y=1 \mid A = 1, L=0) \times W^{A}_{1} = 54 \times 3.67 = 198$
+
+$N(Y=1 \mid A = 0, L=1) \times W^{A}_{1} =71 \times 2.77 = 197$
+
+$N(Y=1 \mid A = 1, L=1) \times W^{A}_{1} = 174 \times 1.56 = 272$
+
+## Applying IP weights to each individual, resulting in the pseudo-population
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+require("Rgraphviz")
+ 
+# Change the three variables below to match your actual values
+# These are the values that you can change for your own probability tree
+# From these three values, other probabilities (e.g. prob(b)) will be calculated 
+ 
+# Probability of a
+a <- 620
+notA <- 1000 - a
+ 
+# Probability (b | a)
+bGivena <- 620
+ 
+# Probability (b | ¬a)
+bGivenNota <- 1000 - a
+ 
+###################### Everything below here will be calculated
+ 
+# Calculate the rest of the values based upon the 3 variables above
+notbGivena <- 620
+notbGivenNota <- 1000 - a
+ 
+ 
+# These are the labels of the nodes on the graph
+# To signify "Not A" - we use A' or A prime 
+ 
+node1 <- "L"
+node2 <- "L=0"
+node3 <- "L=1"
+node4 <- "100"
+node5 <- "198"
+node6 <- "197"
+node7 <- "272"
+nodeNames <- c(node1,node2,node3,node4,node5,node6, node7)
+ 
+rEG <- new("graphNEL", nodes = nodeNames, edgemode = "directed")
+
+ 
+# Draw the "lines" or "branches" of the probability Tree
+rEG <- addEdge(nodeNames[1], nodeNames[2], rEG, 1)
+rEG <- addEdge(nodeNames[1], nodeNames[3], rEG, 1)
+rEG <- addEdge(nodeNames[2], nodeNames[4], rEG, 1)
+rEG <- addEdge(nodeNames[2], nodeNames[5], rEG, 1)
+rEG <- addEdge(nodeNames[3], nodeNames[6], rEG, 1)
+rEG <- addEdge(nodeNames[3], nodeNames[7], rEG, 1)
+ 
+eAttrs <- list()
+ 
+q<-edgeNames(rEG)
+ 
+# Add the probability values to the the branch lines
+ 
+eAttrs$label <- c(toString(a),toString(notA),
+ toString(bGivena), toString(notbGivena),
+ toString(bGivenNota), toString(notbGivenNota))
+names(eAttrs$label) <- c(q[1],q[2], q[3], q[4], q[5], q[6])
+edgeAttrs<-eAttrs
+ 
+# Set the color, etc, of the tree
+attributes<-list(node=list(label = "foo", fillcolor = "white", fontsize = "12"),
+ edge=list(color = "black"),graph = list(rankdir="LR"))
+ 
+#Plot the probability tree using Rgraphvis
+plot(rEG, edgeAttrs = eAttrs, attrs = attributes)
+
+ 
+#Add the probability values
+
+text(320,60,"(A=1)",cex = 1)
+
+text(340,150,"(A=0)",cex = 1)
+
+text(340,190,"(A=1)",cex = 1)
+
+text(340,280,"(A=0)",cex = 1)
+
+text(420,330,"N(Y=1|A,L)",cex = 1)
+ 
+```
+
+## Computing the marginal causal effect ignoring L after applying IP weights
+
+$P(Y = 1 \mid A=0) = \frac {(620 \times \frac{100}{620} + 357 \times \frac{197}{380})}{(620+380)} = 0.297$
+
+$P(Y = 1 \mid A=1) = \frac {(620 \times \frac{198}{620} + 380 \times \frac{272}{380})}{(620+380)} = 0.47$
+
+$LOR_{A=1 \ vs \ A=0} = log\left(\frac{(0.47/0.53)}{(0.297/0.703)}\right) = 0.74$
+
+
+```{r, echo = FALSE, warning = FALSE}
+exposureModel <- glm(A ~ L, data = df, family = "binomial")
+
+df[, pA := predict(exposureModel, type = "response")]
+
+df2 <- defDataAdd(varname = "pA_actual", 
+                    formula = "(A * pA) + ((1 - A) * (1 - pA))", 
+                    dist = "nonrandom")
+df2 <- defDataAdd(df2, varname = "IPW", 
+                    formula = "1/pA_actual", 
+                    dist = "nonrandom")
+
+df3 <- addColumns(df2, df)
+```
+
+## Comparing the result with coefficient of estimate ($Beta_{1}$) from a logistic model 
+```{r, warning = FALSE}
+tidy(glm(Y ~ A , data = df3, family = "binomial", weights = IPW)) 
+```
+
+Through IP Weighting method, we have been able to compute the log odds ratio(Y=1) very close to true odds ratio without taking into account L. Important thing to note here is that the IP weighting is only valid when L satisfies the backdoor criterion. 
+
+\newpage
+
+## Importing NHEFS data
+```{r, message = FALSE, warning = FALSE}
+nhefs <- read_csv("nhefs.csv")
+
+nhefs_uncensored <-
+  nhefs %>%
+  mutate(cens = ifelse(is.na(wt82), 1, 0)) %>%
+  relocate(cens, wt82) %>%
+  filter(!is.na(wt82))
+```
+
+## Estimation of IP weights via a logistic model with multiple covariates
+```{r}
+propensity_model <- glm(
+  qsmk ~ sex + race + age + I(age ^ 2) +
+    as.factor(education) + smokeintensity +
+    I(smokeintensity ^ 2) + smokeyrs + I(smokeyrs ^ 2) +
+    as.factor(exercise) + as.factor(active) + wt71 + I(wt71 ^ 2),
+  family = binomial(),
+  data = nhefs_uncensored
+)
+```
+
+## Computing propensity score. Note that Pr[A=0|L] = 1-Pr[A=1|L]
+```{r, message = FALSE, warning = FALSE}
+p.qsmk.obs <-
+  ifelse(nhefs_uncensored$qsmk == 0,
+         1 - predict(propensity_model, type = "response"),
+         predict(propensity_model, type = "response"))
+
+nhefs_uncensored <-
+  nhefs_uncensored %>%
+  mutate(w = 1/p.qsmk.obs, #inverse propensity score (weight)
+         ps = p.qsmk.obs) #propensity score
+
+nhefs_uncensored %>%
+  ggplot(aes(ps, group = qsmk, fill = factor(qsmk))) + 
+  geom_histogram(alpha = 0.5, position = "identity") +
+  scale_fill_manual(values = c("skyblue", "orange"), 
+                    labels = c("0 = Non-quitters", "Smoking quitters")) +
+  labs(x = "Propensity Score",
+       title = "Distribution of Propensity Score for Quitters vs Non-quitters")
+```
+
+## Computing a coefficient $Beta_{1}$ of the marginal structural model
+```{r}
+msm.w <- geeglm(
+  wt82_71 ~ qsmk,
+  data = nhefs_uncensored,
+  weights = w,
+  id = seqn,
+  corstr = "independence"
+)
+
+beta <- coef(msm.w)
+SE <- coef(summary(msm.w))[, 2]
+Lower_CI <- beta - qnorm(0.975) * SE
+Upper_CI <- beta + qnorm(0.975) * SE
+cbind(beta, Lower_CI, Upper_CI) 
+```
+
+
+
+\newpage
+
+# Reference
+
+Pearl, J., Glymour, M., &amp; Jewell, N. P. (2019). Causal inference in statistics a primer. Wiley. 
+$\\$
+
+Hernán MA, Robins JM (2020). Causal Inference: What If. Boca Raton: Chapman & Hall/CRC.
