@@ -83,7 +83,7 @@ From this result, we can see that postintervention causal effect can be computed
 
 \newpage
 
-## Creating data and computing true log odds ratio ($B_{1}$)
+## Creating data (1000 individuals) and computing the true log odds ratio ($B_{1}$)
 ```{r}
 pre_data <- defData(varname = "L", formula = 0.37, 
                 dist = "binary")
@@ -368,7 +368,7 @@ df3 <- addColumns(df2, df)
 tidy(glm(Y ~ A , data = df3, family = "binomial", weights = IPW)) 
 ```
 
-Through IP Weighting method, we have been able to compute the log odds ratio(Y=1) very close to true odds ratio without taking into account L. Important thing to note here is that the IP weighting is only valid when L satisfies the backdoor criterion. 
+Through IP weighting method, we have been able to compute the log odds ratio(Y=1) very close to true odds ratio without taking into account L. Important thing to note here is that the IP weighting is only valid when L satisfies the backdoor criterion. 
 
 \newpage
 
