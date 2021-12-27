@@ -435,7 +435,7 @@ Upper_CI <- beta + qnorm(0.975) * SE
 cbind(beta, Lower_CI, Upper_CI) 
 ```
 
-Here, the parameter estimate, $Beta_{1}$, is 3.4. This estimated value implies that quitting smoking $(A=1)$ increases weight $(Y)$ by 3.4kg on average.  
+Here, the parameter estimate, $Beta_{1}$, is 3.4. This estimated value indicates that quitting smoking $(A=1)$ increases weight $(Y)$ by 3.4kg on average.  
 
 \newpage
 
