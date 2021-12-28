@@ -204,7 +204,7 @@ text(340,190,"(A=1)",cex = 1)
 
 text(340,280,"(A=0)",cex = 1)
 
-text(420,330,"N(Y=1|A,L)",cex = 1)
+text(420,330,"N(Y=1,A,L)",cex = 1)
  
 ```
 
@@ -248,20 +248,17 @@ $W^{A}_{4} = 1.56$
 ## Applying IP Weights to each individual
 If we apply IP Weights to each individual, the hypothetical population becomes double the size of the original population and it's called the pseudo-population. This is because every individual appears both treated and untreated in the pseudo-population.
 
-$N(Y=1 \mid A = 0, L=0) \times W^{A}_{1} = 73 \times 1.37 = 100$
+$N(Y=1, A = 0, L=0) \times W^{A}_{1} = 73 \times 1.37 = 100$
 
-$N(Y=1 \mid A = 1, L=0) \times W^{A}_{1} = 54 \times 3.67 = 198$
+$N(Y=1, A = 1, L=0) \times W^{A}_{1} = 54 \times 3.67 = 198$
 
-$N(Y=1 \mid A = 0, L=1) \times W^{A}_{1} =71 \times 2.77 = 197$
+$N(Y=1, A = 0, L=1) \times W^{A}_{1} =71 \times 2.77 = 197$
 
-$N(Y=1 \mid A = 1, L=1) \times W^{A}_{1} = 174 \times 1.56 = 272$
+$N(Y=1, A = 1, L=1) \times W^{A}_{1} = 174 \times 1.56 = 272$
 
+If we divide each $N(Y, A, L)$ by 1000, multiply it by each corresponding $W^{A}$, and sum them up, then we obtain the following form of the formula we saw previously: 
 
-```{r}
-wi <- c(3.67, 1.56)
-sum(df$Y*wi)/sum(wi)
-```
-
+$\sum_{l}^{} \frac{ P(Y=y, A=a, L=l)}{P(A = a \mid L=l)}$ = $P(Y=y \mid do(A=a))$ 
 
 ## Applying IP weights to each individual, resulting in the pseudo-population
 
@@ -342,15 +339,14 @@ text(340,190,"(A=1)",cex = 1)
 
 text(340,280,"(A=0)",cex = 1)
 
-text(420,330,"N(Y=1|A,L)",cex = 1)
+text(420,330,"N(Y=1,A,L)",cex = 1)
  
 ```
-
 ## Computing the marginal causal effect ignoring L after applying IP weights
 
-$P(Y = 1 \mid A=0) = \frac {(620 \times \frac{100}{620} + 357 \times \frac{197}{380})}{(620+380)} = 0.297$
+$P(Y = 1 \mid do(A=0)) = \frac {(620 \times \frac{100}{620} + 357 \times \frac{197}{380})}{(620+380)} = 0.297$
 
-$P(Y = 1 \mid A=1) = \frac {(620 \times \frac{198}{620} + 380 \times \frac{272}{380})}{(620+380)} = 0.47$
+$P(Y = 1 \mid do(A=1)) = \frac {(620 \times \frac{198}{620} + 380 \times \frac{272}{380})}{(620+380)} = 0.47$
 
 $LOR_{A=1 \ vs \ A=0} = log\left(\frac{(0.47/0.53)}{(0.297/0.703)}\right) = 0.7414$
 
@@ -378,7 +374,6 @@ cbind(Beta)
 ```
 
 Through IP weighting method of both manual calculation and logistic regression, we have been able to compute the log odds ratio(Y=1) very close to the true odds ratio (0.7417) without taking into account L. Important thing to note here is that the IP weighting is only valid when the set L satisfies the backdoor criterion.
-
 
 \newpage
 
