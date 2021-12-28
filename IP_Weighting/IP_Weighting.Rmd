@@ -303,7 +303,10 @@ $N(Y=1, A = 0, L=1) \times W^{A}_{1} =71 \times 2.77 = 197$
 
 $N(Y=1, A = 1, L=1) \times W^{A}_{1} = 174 \times 1.56 = 272$
 
+$\\$
+
 If we divide each $N(Y, A, L)$ by 1000, multiply it by each corresponding $W^{A}$, and sum them up, then we obtain the following form of the formula we saw previously: 
+$\\$
 
 $\sum_{l}^{} \frac{ P(Y=y, A=a, L=l)}{P(A = a \mid L=l)}$ = $P(Y=y \mid do(A=a))$ 
 
