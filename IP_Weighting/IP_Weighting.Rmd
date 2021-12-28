@@ -80,6 +80,53 @@ $\\$
 
 From this result, we can see that postintervention causal effect can be computed by multiplying the pretreatment distribution of (X,Y,Z) by a factor $1/P(X = x \mid Z=z)$, propensity score. Namely, each case $(Y=y, X=x, Z=z)$in the population receives a weight of the inverse of the conditional probability of receiving the treatment level given a set of observed covariates. This is the reason why this method is called "inverse probability weighting."
 
+\newpage
+
+## Marginal structural model
+
+A marginal structural model (MSM) is a model that relates potential outcomes $(Y \mid do(A=a))$ or $Y^{a}$ to the treatment variable. The potential outcome is the outcome that would be observed if we intervened to set the treatment $A=a$. 
+$\\$
+
+Generally in causal inference, the models that describe potential outcomes are referred to as structural to infer relationships beyond associations. Plus, since a goal is to estimate a marginal mean as opposed to a conditional mean through a structural model, we call it a marginal structural model.
+$\\$
+
+**A linear regression** MSM for continuous outcome: $E[Y^{a}] = \beta_0 + \beta_1a$
+$\\$
+
+The interpretation of $\beta_1$ when the treatment is binary: the average treatment effect or more specifically the change in Y on average when treated ($A=1$). 
+$\\$
+
+The reason is straightforward:
+$\\$
+
+$E[Y^{1}] = \beta_0 + \beta_1$ 
+$\\$
+
+$E[Y^{0}] = \beta_0$. 
+$\\$
+
+Subtracting two equations gives $E[Y^{1}] - E[Y^{0}] = \beta_1$
+$\\$
+
+
+**A logistic regression** MSM for binary outcome: 
+$log\left(\frac{P(Y^{a} = 1)}{1-P(Y^{a}=1)}\right) = \beta_0 + \beta_1a$
+$\\$
+
+The interpretation of $\beta_1$ when the treatment is binary: 
+the log odds ratio of $Y=1$.
+$\\$
+
+Here is why:
+$\\$
+
+$log\left(\frac{P(Y^{a=1}=1)}{1-P(Y^{a=1}=1)}\right) = \beta_0 + \beta_1$
+$\\$
+
+$log\left(\frac{P(Y^{a=0}=1)}{1-P(Y^{a=0}=1)}\right) = \beta_0$
+$\\$
+
+Subtracting two equations gives $log\left(\frac{\frac{P(Y^{a=1}=1)}{1-P(Y^{a=1}=1)}}{\frac{P(Y^{a=0}=1)}{1-P(Y^{a=0}=1)}}\right) = \beta_1$
 
 \newpage
 
@@ -106,7 +153,7 @@ odds <- function(p) {
 log(odds(mean(df$Y1)) / odds(mean(df$Y0)))
 ```
 
-## Generating Joint Probability Distribution P(Y,A,L)
+## Generating Joint Probability Distribution P(Y, A, L)
 ```{r, message = FALSE}
 table <-
   df %>%
@@ -204,7 +251,7 @@ text(340,190,"(A=1)",cex = 1)
 
 text(340,280,"(A=0)",cex = 1)
 
-text(420,330,"N(Y=1,A,L)",cex = 1)
+text(420,330,"N(Y=1, A, L)",cex = 1)
  
 ```
 
@@ -217,7 +264,7 @@ $P(Y = 1 \mid A=1) = \frac {(169 \times \frac{54}{169} + 243 \times \frac{174}{2
 ## Computing crude log odds ratio
 $LOR_{A=1 \ vs \ A=0} = log\left(\frac{(0.553/0.447)}{(0.245/0.755)}\right) = 1.34$
 
-## Comparing the result with coefficient of estimate ($Beta_{1}$) from a logistic model
+## Comparing the result with coefficient of estimate ($\beta_1$) from a logistic model
 ```{r}
 glm(Y ~ A, data = df, family ="binomial") %>% broom::tidy()
 ```
@@ -246,7 +293,7 @@ $W^{A}_{3} = 2.77$
 $W^{A}_{4} = 1.56$
 
 ## Applying IP Weights to each individual
-If we apply IP Weights to each individual, the hypothetical population becomes double the size of the original population and it's called the pseudo-population. This is because every individual appears both treated and untreated in the pseudo-population.
+If we apply IP Weights to each individual, the hypothetical population becomes double the size of the original population and it's called the pseudo-population. This is because every individual gets to receive every level of treatment in the pseudo-population.
 
 $N(Y=1, A = 0, L=0) \times W^{A}_{1} = 73 \times 1.37 = 100$
 
@@ -339,7 +386,7 @@ text(340,190,"(A=1)",cex = 1)
 
 text(340,280,"(A=0)",cex = 1)
 
-text(420,330,"N(Y=1,A,L)",cex = 1)
+text(420,330,"N(Y=1, A, L)",cex = 1)
  
 ```
 ## Computing the marginal causal effect ignoring L after applying IP weights
@@ -366,7 +413,7 @@ df_with_weight <-
          ps = df.obs) #propensity score
 ```
 
-## Comparing the result with coefficient of estimate ($Beta_{1}$) from a logistic model 
+## Comparing the result with coefficient of estimate ($\beta_1$) from a logistic model 
 ```{r, warning = FALSE}
 msm.w <- glm(Y ~ A , data = df_with_weight, family = "binomial", weights = w)
 Beta <- coef(msm.w)
@@ -388,7 +435,7 @@ nhefs_uncensored <-
   filter(!is.na(wt82))
 ```
 
-## Estimation of IP weights via a logistic model with multiple covariates
+## Estimating propensitiy score $P(A \mid L's)$ via a logistic model (multiple covariates)
 ```{r}
 propensity_model <- glm(
   qsmk ~ sex + race + age + I(age ^ 2) +
@@ -412,16 +459,24 @@ nhefs_uncensored <-
   mutate(w = 1/p.qsmk.obs, #inverse propensity score (weight)
          ps = p.qsmk.obs) #propensity score
 
+```
+
+In this data from NHEFS, the continuous outcome Y is weight. The binary treatment A is smoking cessation. Additionally, there are 9 confounders included as covariates. 
+
+\newpage
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 nhefs_uncensored %>%
   ggplot(aes(ps, group = qsmk, fill = factor(qsmk))) + 
   geom_histogram(alpha = 0.5, position = "identity") +
   scale_fill_manual(values = c("skyblue", "orange"), 
-                    labels = c("0 = Non-quitters", "Smoking quitters")) +
+                    labels = c("0 = Non-quitters", "1 = Smoking quitters")) +
   labs(x = "Propensity Score",
        title = "Distribution of Propensity Score for Quitters vs Non-quitters")
 ```
 
-## Computing the coefficient of $Beta_{1}$ of the marginal structural model
+
+## Computing the coefficient of $\beta_1$ of the marginal structural model
 ```{r}
 msm.w <- geeglm(
   wt82_71 ~ qsmk,
@@ -438,8 +493,7 @@ Upper_CI <- beta + qnorm(0.975) * SE
 cbind(beta, Lower_CI, Upper_CI) 
 ```
 
-Here, the parameter estimate, $Beta_{1}$, is 3.4. This estimated value indicates that quitting smoking $(A=1)$ increases weight $(Y)$ by 3.4kg on average.  
-
+Here, the parameter estimate, $\beta_1$, is 3.4. This estimated value indicates that quitting smoking $(A=1)$ increases weight $(Y)$ by 3.4kg on average.  
 
 
 \newpage
