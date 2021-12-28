@@ -464,7 +464,7 @@ nhefs_uncensored <-
 
 ```
 
-In this data from NHEFS, the continuous outcome Y is weight. The binary treatment A is smoking cessation. Additionally, there are 9 confounders included as covariates. 
+In this data from NHEFS, the continuous outcome Y is weight. The binary treatment A is smoking cessation. Additionally, there are 9 confounders included as covariates. It should be noted that positivity should hold. Namely, we must ensure every combination of $P(A \mid L)$ is greater than zero. 
 
 \newpage
 
