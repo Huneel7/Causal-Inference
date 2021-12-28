@@ -239,21 +239,24 @@ attributes<-list(node=list(label = "foo", fillcolor = "white", fontsize = "12"),
  edge=list(color = "black"),graph = list(rankdir="LR"))
  
 #Plot the probability tree using Rgraphvis
-plot(rEG, edgeAttrs = eAttrs, attrs = attributes)
+#plot(rEG, edgeAttrs = eAttrs, attrs = attributes)
  
 #Add the probability values
 
-text(320,60,"(A=1)",cex = 1)
+#text(320,60,"(A=1)",cex = 1)
 
-text(340,150,"(A=0)",cex = 1)
+#text(340,150,"(A=0)",cex = 1)
 
-text(340,190,"(A=1)",cex = 1)
+#text(340,190,"(A=1)",cex = 1)
 
-text(340,280,"(A=0)",cex = 1)
+#text(340,280,"(A=0)",cex = 1)
 
-text(420,330,"N(Y=1, A, L)",cex = 1)
+#text(420,330,"N(Y=1, A, L)",cex = 1)
  
 ```
+
+![](treeplot.jpg)
+
 
 ## Computing the marginal causal effect ignoring L before applying IP weights
 
@@ -376,22 +379,25 @@ attributes<-list(node=list(label = "foo", fillcolor = "white", fontsize = "12"),
  edge=list(color = "black"),graph = list(rankdir="LR"))
  
 #Plot the probability tree using Rgraphvis
-plot(rEG, edgeAttrs = eAttrs, attrs = attributes)
+#plot(rEG, edgeAttrs = eAttrs, attrs = attributes)
 
  
 #Add the probability values
 
-text(320,60,"(A=1)",cex = 1)
+#text(320,60,"(A=1)",cex = 1)
 
-text(340,150,"(A=0)",cex = 1)
+#text(340,150,"(A=0)",cex = 1)
 
-text(340,190,"(A=1)",cex = 1)
+#text(340,190,"(A=1)",cex = 1)
 
-text(340,280,"(A=0)",cex = 1)
+#text(340,280,"(A=0)",cex = 1)
 
-text(420,330,"N(Y=1, A, L)",cex = 1)
+#text(420,330,"N(Y=1, A, L)",cex = 1)
  
 ```
+
+![](treeplot2.jpg)
+
 ## Computing the marginal causal effect ignoring L after applying IP weights
 
 $P(Y = 1 \mid do(A=0)) = \frac {(620 \times \frac{100}{620} + 357 \times \frac{197}{380})}{(620+380)} = 0.297$
