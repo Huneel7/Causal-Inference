@@ -314,7 +314,7 @@ Thus, $P(Y = y \mid do(X = x))$ = $\sum_{l,l_{2}}^{} P(Y=y \mid X=x, L=l,L_{2}=l
 
 # Reference
 
-Pearl, J., Glymour, M., &amp; Jewell, N. P. (2019). Causal inference in statistics a primer. Wiley. 
+Pearl, J., Glymour, M., &amp; Jewell, N. P. (2016). Causal inference in statistics a primer. Wiley. 
 $\\$
 
 Hernán MA, Robins JM (2020). Causal Inference: What If. Boca Raton: Chapman & Hall/CRC.
