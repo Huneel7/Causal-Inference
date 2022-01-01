@@ -78,7 +78,7 @@ $= \ E\left(\frac{Y^{1}}{P(A=1 \mid L)}E\left[A \mid Y^{a}, L \right]\right)$
 
 $= \ E\left(\frac{Y^{1}}{P(A=1 \mid L)}E\left[A \mid L \right]\right) \ \ \ \ \ $ (by no unmeasured confounders)
 
-$= \ E\left(\frac{Y^{1}}{E(A=1 \mid L)}E\left[A \mid L \right]\right)$
+$= \ E\left(\frac{Y^{1}}{E(A \mid L)}E\left[A \mid L \right]\right)$
 
 $= \ E[Y^{1}]$
 $\\$
