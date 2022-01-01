@@ -53,10 +53,12 @@ Propensity Score:
 $P(A=1 \mid L) = E[I(A=1) \mid L] = E[A \mid L]$
 
 Under no unmeasured confounders, $Y^{a} \perp\!\!\!\perp A \mid E[A \mid L]$
+$\\$
 
 Fitting a logistic regression for propensity score:
 
 $P(A=1 \mid L) = \frac{exp{(\alpha_0 + L^{T}\alpha_1)}}{1+exp{(\alpha_0 + L^{T}\alpha_1)}}$
+$\\$
 
 Rather than use the difference of simple averages $\overline{Y}^{(1)} - \overline{Y}^{(0)}$,
 estimate $\triangle$ by the difference of inverse propensity score weighted averages:
@@ -106,5 +108,6 @@ $= \ E[Y^{1}] + E\left[\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{Y^{1}-E(Y \mid A=1
 
 \newpage
 ## Does $\hat{\triangle}_{DR}$ estimate $\triangle$?
+
 
 
