@@ -513,3 +513,6 @@ Pearl, J., Glymour, M., &amp; Jewell, N. P. (2016). Causal inference in statisti
 $\\$
 
 Hernán MA, Robins JM (2020). Causal Inference: What If. Boca Raton: Chapman & Hall/CRC.
+$\\$
+
+Stat 394: Causal inference. Leslie Myint. (n.d.). https://lmyint.github.io/causal_spring_2020/ 
