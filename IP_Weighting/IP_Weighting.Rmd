@@ -120,13 +120,13 @@ $\\$
 Here is why:
 $\\$
 
-$log\left(\frac{P(Y^{a=1}=1)}{1-P(Y^{a=1}=1)}\right) = \beta_0 + \beta_1$
+$log\left(\frac{P(Y^{1}=1)}{1-P(Y^{1}=1)}\right) = \beta_0 + \beta_1$
 $\\$
 
-$log\left(\frac{P(Y^{a=0}=1)}{1-P(Y^{a=0}=1)}\right) = \beta_0$
+$log\left(\frac{P(Y^{0}=1)}{1-P(Y^{0}=1)}\right) = \beta_0$
 $\\$
 
-Subtracting two equations gives $log\left(\frac{\frac{P(Y^{a=1}=1)}{1-P(Y^{a=1}=1)}}{\frac{P(Y^{a=0}=1)}{1-P(Y^{a=0}=1)}}\right) = \beta_1$
+Subtracting two equations gives $log\left(\frac{\frac{P(Y^{1}=1)}{1-P(Y^{1}=1)}}{\frac{P(Y^{0}=1)}{1-P(Y^{0}=1)}}\right) = \beta_1$
 
 \newpage
 
