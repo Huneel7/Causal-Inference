@@ -78,7 +78,7 @@ $= \ \sum_{z}^{} \frac{ P(Y=y, X=x,Z=z)}{P(X = x \mid Z=z)}$
 
 $\\$
 
-From this result, we can see that postintervention causal effect can be computed by multiplying the pretreatment distribution of (X,Y,Z) by a factor $1/P(X = x \mid Z=z)$, propensity score. Namely, each case $(Y=y, X=x, Z=z)$in the population receives a weight of the inverse of the conditional probability of receiving the treatment level given a set of observed covariates. This is the reason why this method is called "inverse probability weighting."
+From this result, we can see that postintervention causal effect can be computed by multiplying the pretreatment distribution of (X,Y,Z) by a factor $1/P(X = x \mid Z=z)$, propensity score. Namely, each case $(Y=y, X=x, Z=z)$ in the population receives a weight of the inverse of the conditional probability of receiving the treatment level given a set of observed covariates. This is the reason why this method is called "inverse probability weighting."
 
 \newpage
 
