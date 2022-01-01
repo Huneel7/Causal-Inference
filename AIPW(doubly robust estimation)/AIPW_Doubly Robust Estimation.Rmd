@@ -49,7 +49,7 @@ $\\$
 
 ## Propensity Score Model & Adjustment by Inverse Weighting
 
-Propensity Score:
+Propensity score:
 $P(A=1 \mid L) = E[I(A=1) \mid L] = E[A \mid L]$
 
 Under no unmeasured confounders, $Y^{a} \perp\!\!\!\perp A \mid E[A \mid L]$
@@ -94,9 +94,8 @@ $\\$
 $\hat{\triangle}_{DR} = \frac{1}{n}\sum_{i=1}^{n} \left[\frac{A_{i}Y_{i}}{\hat{P}(A=1 \mid L{i})}-\frac{A_{i}-\hat{P}(A=1 \mid L{i})}{\hat{P}(A=1 \mid L{i})}\hat{E}(Y_{i} \mid A_{i}=1, L_{i})\right] -  \frac{1}{n}\sum_{i=1}^{n} \left[\frac{(1-A_{i})Y_{i}}{1-\hat{P}(A=1 \mid L_{i})} + \frac{A_{i}-\hat{P}(A=1 \mid L{i})}{1-\hat{P}(A=1 \mid L{i})}\hat{E}(Y_{i} \mid A_{i}=0, L_{i})\right]$
 
 $= \ \hat{\mu}_{1,DR} - \hat{\mu}_{0,DR}$
-$\\$
 
-$E[\mu_{1,DR}]$
+## What does $\hat{\mu}_{1,DR}$ estimate?
 
 $= \ E\left[\frac{AY}{P(A=1 \mid L)}-\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}E(Y \mid A=1, L)\right]$
 
@@ -109,5 +108,8 @@ $= \ E[Y^{1}] + E\left[\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{Y^{1}-E(Y \mid A=1
 \newpage
 ## Does $\hat{\triangle}_{DR}$ estimate $\triangle$?
 
+$\hat{\mu}_{1,DR}$ estimates $\\$ $\phantom{spacespace}$ $E[Y^{1}] + E\left[\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{Y^{1}-E(Y \mid A=1, L)\}\right] \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (*)$
+
+In order for $\hat{\mu}_{1,DR}$ to estimate $E[Y_{1}]$, the second term in $(*)$ must be $0$.
 
 
