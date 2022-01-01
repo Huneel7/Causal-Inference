@@ -68,7 +68,7 @@ If ${\hat{P}(A=1 \mid L)} = P(A=1 \mid L)$, the true propensity score:
 
 $E\left[\frac{AY}{P(A=1 \mid L)}\right]$
 
-$= \ E\left[\frac{AY^{1}}{P(A=1 \mid L)}\right] \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $ (by $AY = A(Y^{1}A + Y^{0}(1-A)) = AY^{1}$ for $A^2 = A$)
+$= \ E\left[\frac{AY^{1}}{P(A=1 \mid L)}\right] \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $ (by $AY = A(Y^{1}A + Y^{0}(1-A)) = AY^{1}$ for $A^2 = A$)
  
 $= \ E\left(E\left[\frac{AY^{a}}{P(A=1 \mid L)} \mid Y^{a}, L \right]\right)$
 
