@@ -166,6 +166,7 @@ library(tidyverse)
 library(simstudy)
 library(CausalGAM)
 library(broom)
+library(performance)
 ```
 
 ## Generating  data with true ATE = 0.5
@@ -183,6 +184,23 @@ pre_data <- defData(pre_data, varname = "Y", formula = "L1 + 0.5*L2 + 0.5*A",
 set.seed(7777)
 df <- genData(500, pre_data)
 ```
+
+## Propensity Model
+```{r, message=FALSE, fig.width=5, fig.height=3}
+logistic_model <- glm(A ~ L2, family = binomial, data = df)
+logistic_model %>% broom::tidy()
+ggplot(df, aes(L2, A)) + geom_point() + 
+  geom_smooth(method = "glm", se = FALSE, method.args = list(family = "binomial"))
+```
+\newpage
+## Regression Model
+```{r}
+linear_model <- lm(Y ~ L1 + L2, data = df)
+linear_model %>% broom::tidy()
+check_model(linear_model, 
+            check = c("linearity", "qq", "normality", "homogeneity"))
+```
+
 
 \newpage
 ## Case when regression model is correct, but propensity model is incorrect
