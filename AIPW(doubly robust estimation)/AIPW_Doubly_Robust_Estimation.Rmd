@@ -115,7 +115,7 @@ In order for $\hat{\mu}_{1,DR}$ to estimate $E[Y_{1}]$, the second term in $(*)$
 It is 0 when either **postulated propensity score model** or **postulated regression model** is correct.
 $\\$
 
-**Scenario 1: Propensity score model is correct** 
+**Scenario 1: Propensity score model $P(A=1 \mid L)$ is correct**
 
 $E\left[\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{Y^{1}-E(Y \mid A=1, L)\}\right]$
 
@@ -135,7 +135,7 @@ $\\$
 $\therefore \ \hat{\mu}_{1,DR} \ \ \text{estimates} \ E[Y^1]$ and similarly $\hat{\mu}_{0,DR} \ \ \text{estimates} \ E[Y^0]$ when propensity score model is correct
 $\\$
 
-**Scenario 2: Regression model is correct**
+**Scenario 2: Regression model $E(Y \mid A=1, L)$ is correct** 
 
 $E\left[\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{Y^{1}-E(Y \mid A=1, L)\}\right]$
 
@@ -143,13 +143,13 @@ $= \ E\left(E\left[\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{Y^{1}-E(Y \mid A=1, L)
 
 $= \ E\left(\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}E\left[\{Y^{1}-E(Y \mid A=1, L)\}\mid A, L\right] \right)$
 
-$= \ E\left(\frac{A-E(A \mid L)}{E(A \mid L)}E\left[\{Y^{1}-E(Y \mid A=1, L)\}\mid A, L\right] \right)$
+$= \ E\left(\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}E\left[\{Y^{1}-E(Y \mid A=1, L)\}\mid A, L\right] \right)$
 
-$= \ E\left(\frac{A-E(A \mid L)}{E(A \mid L)}\{E[Y^{1} \mid A, L]-E(Y \mid A=1, L)\} \right)$
+$= \ E\left(\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{E[Y^{1} \mid A, L]-E(Y \mid A=1, L)\} \right)$
 
-$= \ E\left(\frac{A-E(A \mid L)}{E(A \mid L)}\{E[Y^{1} \mid A, L]-E(Y^1 \mid A=1, L)\} \right)$
+$= \ E\left(\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{E[Y^{1} \mid A, L]-E(Y^1 \mid A=1, L)\} \right)$
 
-$= \ E\left(\frac{A-E(A \mid L)}{E(A \mid L)}\{E[Y^{1} \mid L]-E(Y^1 \mid L)\} \right) \ \ $ (under no unmeasured confounders)
+$= \ E\left(\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{E[Y^{1} \mid L]-E(Y^1 \mid L)\} \right) \ \ $ (under no unmeasured confounders)
 
 $= \ 0$
 $\\$
@@ -158,3 +158,22 @@ $\therefore \ \hat{\mu}_{1,DR} \ \ \text{estimates} \ E[Y^1]$ and similarly $\ha
 $\\$
 
 Therefore, $\hat{\triangle}_{DR}$ estimates $\triangle$!
+
+\newpage
+
+```{r, echo = FALSE, message = FALSE}
+library(tidyverse)
+library(simstudy)
+```
+
+
+```{r}
+pre_data <- defData(varname = "Z1", formula = "0", variance = 1, 
+                dist = "normal")
+
+df <- genData(1000, pre_data)
+```
+
+
+
+
