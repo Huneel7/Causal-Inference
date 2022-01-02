@@ -230,3 +230,9 @@ ATE.out_2 <- estimate.ATE(pscore.formula = A ~ s(L2),
                         var.gam.plot = FALSE, nboot = 50)
 print(ATE.out_2)
 ```
+
+\newpage
+
+## Reference
+
+Davidian, M. (n.d.). NC State Department of Statistics. Retrieved January 1, 2022, from https://www4.stat.ncsu.edu/~davidian/double.pdf 
