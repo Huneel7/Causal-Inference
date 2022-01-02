@@ -184,6 +184,7 @@ set.seed(7777)
 df <- genData(500, pre_data)
 ```
 
+\newpage
 ## Case when regression model is correct, but propensity model is incorrect
 ```{r}
 ATE.out <- estimate.ATE(pscore.formula = A ~ s(L1),
@@ -191,15 +192,13 @@ ATE.out <- estimate.ATE(pscore.formula = A ~ s(L1),
                         outcome.formula.t = Y ~ s(L1) + s(L2),
                         outcome.formula.c = Y ~ s(L1) + s(L2),
                         outcome.family = gaussian,
-                        treatment.var = "A",
-                        data = df,
-                        divby0.action = "t",
-                        divby0.tol = 0.001,
-                        var.gam.plot = FALSE,
-                        nboot = 50)
+                        treatment.var = "A", data = df,
+                        divby0.action = "t", divby0.tol = 0.001,
+                        var.gam.plot = FALSE, nboot = 50)
 print(ATE.out)
 ```
 
+\newpage
 ## Case when propensity model is correct, but regression model is incorrect
 ```{r}
 ATE.out_2 <- estimate.ATE(pscore.formula = A ~ s(L2),
@@ -207,10 +206,8 @@ ATE.out_2 <- estimate.ATE(pscore.formula = A ~ s(L2),
                         outcome.formula.t = Y ~ s(L1) + s(L3),
                         outcome.formula.c = Y ~ s(L1) + s(L3),
                         outcome.family = gaussian,
-                        treatment.var = "A",
-                        data = df,
-                        divby0.action = "t",
-                        divby0.tol = 0.001,
+                        treatment.var = "A", data = df,
+                        divby0.action = "t", divby0.tol = 0.001,
                         var.gam.plot = FALSE, nboot = 50)
 print(ATE.out_2)
 ```
