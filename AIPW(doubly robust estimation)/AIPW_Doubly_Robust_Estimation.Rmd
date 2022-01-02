@@ -193,12 +193,13 @@ ggplot(df, aes(L2, A)) + geom_point() +
   geom_smooth(method = "glm", se = FALSE, method.args = list(family = "binomial"))
 ```
 \newpage
+
 ## Regression Model
 ```{r}
 linear_model <- lm(Y ~ L1 + L2, data = df)
 linear_model %>% broom::tidy()
 check_model(linear_model, 
-            check = c("linearity", "qq", "normality", "homogeneity"))
+            check = c("linearity", "qq", "normality", "outliers"))
 ```
 
 
