@@ -165,13 +165,29 @@ Therefore, $\hat{\triangle}_{DR}$ estimates $\triangle$!
 library(tidyverse)
 library(simstudy)
 ```
-
-
+## Generating  data
 ```{r}
-pre_data <- defData(varname = "Z1", formula = "0", variance = 1, 
+pre_data <- defData(varname = "L1", formula = "0", variance = 1, 
                 dist = "normal")
 
+pre_data <- defData(pre_data, varname = "L2", formula = "0.7 + 1.7*L1", 
+                dist = "normal")
+
+pre_data <- defData(pre_data, varname = "A", formula = "0.17 + 0.37*L1",
+                dist = "binary", link = "logit")
+
+pre_data <- defData(pre_data, varname = "Y", formula = "2*A + L2", 
+                dist = "nonrandom")
+
+pre_data <- defData(pre_data, varname = "Y2", formula = "2*A + L2 + A^2 + L2^2", 
+                dist = "nonrandom")
+
+set.seed(777)
 df <- genData(1000, pre_data)
+```
+
+```{r}
+
 ```
 
 
