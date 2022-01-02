@@ -164,32 +164,53 @@ Therefore, $\hat{\triangle}_{DR}$ estimates $\triangle$!
 ```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
 library(simstudy)
+library(CausalGAM)
+library(broom)
 ```
-## Generating  data
+
+## Generating  data with true ATE = 0.5
 ```{r}
-pre_data <- defData(varname = "L1", formula = "0", variance = 1, 
+pre_data <- defData(varname = "L1", formula = "0", variance = 1,
                 dist = "normal")
-
-pre_data <- defData(pre_data, varname = "L2", formula = "0.7 + 1.7*L1", 
+pre_data <- defData(pre_data, varname = "L2", formula = "0", variance = 1,
                 dist = "normal")
-
-pre_data <- defData(pre_data, varname = "A", formula = "0.17 + 0.37*L1",
+pre_data <- defData(pre_data, varname = "L3", formula = "0;1",
+                dist = "uniform")
+pre_data <- defData(pre_data, varname = "A", formula = " -1.3 + 1.2*L2",
                 dist = "binary", link = "logit")
-
-pre_data <- defData(pre_data, varname = "Y", formula = "2*A + L2", 
-                dist = "nonrandom")
-
-pre_data <- defData(pre_data, varname = "Y2", formula = "2*A + L2 + A^2 + L2^2", 
-                dist = "nonrandom")
-
-set.seed(777)
-df <- genData(1000, pre_data)
+pre_data <- defData(pre_data, varname = "Y", formula = "L1 + 0.5*L2 + 0.5*A", 
+                    variance = 0.5, dist = "normal")
+set.seed(7777)
+df <- genData(500, pre_data)
 ```
 
+## Case when regression model is correct, but propensity model is incorrect
 ```{r}
-
+ATE.out <- estimate.ATE(pscore.formula = A ~ s(L1),
+                        pscore.family = binomial,
+                        outcome.formula.t = Y ~ s(L1) + s(L2),
+                        outcome.formula.c = Y ~ s(L1) + s(L2),
+                        outcome.family = gaussian,
+                        treatment.var = "A",
+                        data = df,
+                        divby0.action = "t",
+                        divby0.tol = 0.001,
+                        var.gam.plot = FALSE,
+                        nboot = 50)
+print(ATE.out)
 ```
 
-
-
-
+## Case when propensity model is correct, but regression model is incorrect
+```{r}
+ATE.out_2 <- estimate.ATE(pscore.formula = A ~ s(L2),
+                        pscore.family = binomial,
+                        outcome.formula.t = Y ~ s(L1) + s(L3),
+                        outcome.formula.c = Y ~ s(L1) + s(L3),
+                        outcome.family = gaussian,
+                        treatment.var = "A",
+                        data = df,
+                        divby0.action = "t",
+                        divby0.tol = 0.001,
+                        var.gam.plot = FALSE, nboot = 50)
+print(ATE.out_2)
+```
