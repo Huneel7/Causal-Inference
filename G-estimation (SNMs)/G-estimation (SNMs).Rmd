@@ -107,3 +107,5 @@ The solution to this equation has a closed form and hence can be calculated dire
 $\sum_{i=1}^{n}[C_i=0]W_i^C(A_i-E[A \mid L_i])(Y_i - \psi^\dagger A_i) = 0 \ \Leftrightarrow   \ \hat{\psi}_1 =  \frac {\sum_{i=1}^{n}[C_i=0]W_i^CY_i(A_i-E[A \mid L_i])}{\sum_{i=1}^{n}[C_i=0]W_i^CA_i(A_i-E[A \mid L_i])}$
 
 \newpage
+
+## G-estimation for time-varying treatments
