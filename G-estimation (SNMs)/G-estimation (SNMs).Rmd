@@ -3,7 +3,7 @@ title: "G-estimation"
 output: pdf_document
 ---
 
-Say conditional exchangeability holds and hence the outcome distribution in the treated and the untreated would be the same if both groups had received the same treatment level, namely $A \perp\!\!\!\perp Y^a \mid L$. Here, let Y is the outcome, A is the treatment, and L is the set of all measured covariates. 
+Suppose conditional exchangeability holds and then the outcome distribution in the treated and the untreated would be the same if both groups had received the same treatment level, namely $A \perp\!\!\!\perp Y^a \mid L$. Here, let Y is the outcome, A is the treatment, and L is the set of all measured covariates. 
 
 Then, $Pr[A=1 \mid Y^a, L] = Pr[A=1 \mid L]$
 
@@ -56,7 +56,7 @@ Suppose we want to estimate the parameters of structural nested mean model $E[Y^
 
 Also assume that the additive rank-preserving model is $Y_{i}^{a} - Y_{i}^{a=0} = \psi_{1}a$ for all individuals i.
 
-Then the individual causal effect $\psi_1$ is equal to the average causal effect $\beta_1$
+Then the individual causal effect $\psi_1$ is equal to the average causal effect $\beta_1$.
 
 The rank-preserving model can be also written as:
 
@@ -80,3 +80,24 @@ Namely, we find the $H(\psi^\dagger)$ with $\alpha_1 = 0$ in its logistic model 
 
 The example for the possible range of $\psi^\dagger$ is from $-20$ to $20$ and test each value of $\psi^\dagger$ by increments of 0.01.
 
+## Structural nested models with effect modification
+
+Suppose we have effect modification by some components V of L. 
+
+Then, the structural nested mean model is:
+
+$E[Y^{a=1} - Y^{a=0} \mid L] = \beta_1a + \beta_2aV$ 
+
+The corresponding rank-preserving model is:
+
+$Y_{i}^{a} - Y_{i}^{a=0} = \psi_{1}a + \psi_{2}aV_i$
+
+Because the structural model has two parameters, $\psi_{1}$ and $\psi_{2}$, we also need to include two parameters in the IP Weighted logistic model for $Pr[A=1 \mid H(\psi^\dagger), L]$:
+
+$logitPr[A=1 \mid H(\psi^\dagger), L] = \alpha_0 + \alpha_1H(\psi^\dagger) + \alpha_2H(\psi^\dagger)V + \alpha_3L$
+
+And find the combination of $\psi_1^\dagger$ and $\psi_2^\dagger$ that gives $H(\psi^\dagger)$ that makes both $\alpha_1$ and $\alpha_2$ equal to zero. 
+
+For the search must be conducted over a two-dimensional space, this grid search is computationally demanding. Less computationally intensive approaches, known as directed search methods, for approximate search- ing are available in statistical software.
+
+\newpage
