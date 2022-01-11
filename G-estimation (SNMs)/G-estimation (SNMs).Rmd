@@ -3,3 +3,80 @@ title: "G-estimation"
 output: pdf_document
 ---
 
+Say conditional exchangeability holds and hence the outcome distribution in the treated and the untreated would be the same if both groups had received the same treatment level, namely $A \perp\!\!\!\perp Y^a \mid L$. Here, let Y is the outcome, A is the treatment, and L is the set of all measured covariates. 
+
+Then, $Pr[A=1 \mid Y^a, L] = Pr[A=1 \mid L]$
+
+Now, suppose we propose the following parametric logistic model for the probability of treatment:
+
+$logitPr[A=1 \mid Y^{a=0}, L] = \alpha_0 + \alpha_1Y^{a=0} + \alpha_2L \ $ where $\alpha_2$ is a vector of parameters, one for each component of L. 
+
+If L has P components, $\alpha_2L = \sum_{j=1}^{p}\alpha_{2j}L_j$
+
+## Structural nested mean models
+
+Suppose we are interested in estimating the average causal effect of treatment A within levels of L, that is, $E[Y^{a=1} \mid L] - E[Y^{a=0} \mid L]$
+
+The equation is the same as $E[Y^{a=1} - Y^{a=0} \mid L]$ because the difference of the means is equal to the mean of the differences. 
+
+If there is no effect measure modification by L, these differences would be constant across strata:
+
+$E[Y^{a=1} - Y^{a=0} \mid L] = \beta_1$
+
+And the structural model for the conditional causal effect would be:
+
+$E[Y^{a=1} - Y^{a=0} \mid L] = \beta_1a$
+
+More generally, there may be effect modification by L and the structural model would be:
+
+$E[Y^{a=1} - Y^{a=0} \mid L] = \beta_1a + \beta_2aL \ $ which is referred to as a *structural nested mean model*.
+
+The parameters, $\beta_1$ and $\beta_2$ (a vector), are estimated by g-estimation and they quantify the average causal effect of treatment A on Y within levels of A and L.
+
+## Rank Preservation
+
+Suppose we rank every individual according to $Y^{a=1}$ and according to $Y^{a=0}$ as well.
+If those individuals in two lists are ordered identically, there is *rank preservation*. For example, if treatment A gives the same effect on the outcome Y to everyone, then the ranking of those individuals according to $Y^{a=0}$ would be equal to that of those individuals according to $Y^{a=1}$ 
+
+*The conditioanl additive rank preservation* holds if the effect of treatment A on the outcome Y is exactly the same for all individuals with the same values of L. 
+
+An example of an (additive conditional) rank-preserving structural model is:
+
+$Y_{i}^{a} - Y_{i}^{a=0} = \psi_{1}a + \psi_{2}aL_i$ for all individuals i
+
+where $\psi_{1} + \psi_{2}l$ s the constant causal effect for all individuals with covariate values L = l.
+
+Although rank preservation is implausible, it is introduced to introduce g-estimation and for easier understanding of it. 
+
+\newpage
+
+## G-estimation
+
+Suppose we want to estimate the parameters of structural nested mean model $E[Y^a-Y^{a=0} \mid A =a, L] =  \beta_{1}a$
+
+Also assume that the additive rank-preserving model is $Y_{i}^{a} - Y_{i}^{a=0} = \psi_{1}a$ for all individuals i.
+
+Then the individual causal effect $\psi_1$ is equal to the average causal effect $\beta_1$
+
+The rank-preserving model can be also written as:
+
+$Y^{a=0} = Y^{a} - \psi_{1a}$
+
+If the model were correct and the value of $\psi_1$ were known, then it would be possible to compute the counterfactual outcome under no treatment $Y^{a=0}$ for each individual in the study population. The challenge is to estimate $\psi_1$
+
+Let us notate the possible values of $\psi_1$ as $\psi_1^\dagger$ and define function:
+
+$H(\psi^\dagger) = Y - \psi^\dagger A$
+
+Among possible values of $\psi^\dagger$, only one of them is the true $\psi$ and its corresponding candidate $H(\psi^\dagger)$ is the counterfactual outcome $Y^{a=0}$.
+
+In order to find the right candidate for $\psi$ among possible $\psi^\dagger$, we fit separate logistic models for every candidate $H(\psi^\dagger)$:
+
+$logitPr[A=1 \mid H(\psi^\dagger), L] = \alpha_0 + \alpha_1H(\psi^\dagger) + \alpha_2L$
+
+The trick is to use conditional exchangeability, $A \perp\!\!\!\perp Y^a \mid L$. 
+
+Namely, we find the $H(\psi^\dagger)$ with $\alpha_1 = 0$ in its logistic model and that $H(\psi^\dagger)$ is the counterfactual $Y^{a=0}$
+
+The example for the possible range of $\psi^\dagger$ is from $-20$ to $20$ and test each value of $\psi^\dagger$ by increments of 0.01.
+
