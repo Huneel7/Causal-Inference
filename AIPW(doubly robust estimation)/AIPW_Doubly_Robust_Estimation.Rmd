@@ -143,8 +143,6 @@ $= \ E\left(E\left[\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{Y^{1}-E(Y \mid A=1, L)
 
 $= \ E\left(\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}E\left[\{Y^{1}-E(Y \mid A=1, L)\}\mid A, L\right] \right)$
 
-$= \ E\left(\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}E\left[\{Y^{1}-E(Y \mid A=1, L)\}\mid A, L\right] \right)$
-
 $= \ E\left(\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{E[Y^{1} \mid A, L]-E(Y \mid A=1, L)\} \right)$
 
 $= \ E\left(\frac{A-P(A=1 \mid L)}{P(A=1 \mid L)}\{E[Y^{1} \mid A, L]-E(Y^1 \mid A=1, L)\} \right)$
@@ -235,4 +233,4 @@ print(ATE.out_2)
 
 ## Reference
 
-Davidian, M. (n.d.). NC State Department of Statistics. Retrieved January 1, 2022, from https://www4.stat.ncsu.edu/~davidian/double.pdf 
+Davidian, M. (n.d.). NC State Department of Statistics. Retrieved January 1, 2022, from https://www4.stat.ncsu.edu/~davidian/double.pdf
