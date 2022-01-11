@@ -98,6 +98,12 @@ $logitPr[A=1 \mid H(\psi^\dagger), L] = \alpha_0 + \alpha_1H(\psi^\dagger) + \al
 
 And find the combination of $\psi_1^\dagger$ and $\psi_2^\dagger$ that gives $H(\psi^\dagger)$ that makes both $\alpha_1$ and $\alpha_2$ equal to zero. 
 
-For the search must be conducted over a two-dimensional space, this grid search is computationally demanding. Less computationally intensive approaches, known as directed search methods, for approximate search- ing are available in statistical software.
+For the search must be conducted over a two-dimensional space, this grid search is computationally demanding. Less computationally intensive approaches, known as directed search methods, for approximate searching are available in statistical software. It is for linear mean models and the estimate can be directly calculated using a formula:
+
+$\sum_{i=1}^{n}[C_i=0]W_i^CH_i(\psi^\dagger)(A_i-E[A \mid L_i]) = 0$
+
+The solution to this equation has a closed form and hence can be calculated directly by using the fact $H_i(\psi^\dagger) = Y_i - \psi^\dagger A_i$:
+
+$\sum_{i=1}^{n}[C_i=0]W_i^C(A_i-E[A \mid L_i])(Y_i - \psi^\dagger A_i) = 0 \ \Leftrightarrow   \ \hat{\psi}_1 =  \frac {\sum_{i=1}^{n}[C_i=0]W_i^CY_i(A_i-E[A \mid L_i])}{\sum_{i=1}^{n}[C_i=0]W_i^CA_i(A_i-E[A \mid L_i])}$
 
 \newpage
