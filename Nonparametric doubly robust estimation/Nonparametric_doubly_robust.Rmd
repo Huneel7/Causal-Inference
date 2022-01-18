@@ -3,7 +3,7 @@ title: "Nonparametric dobuly robust estimation of continuous treatment"
 output: pdf_document
 ---
 
-This work is to verify the proof of theorems introduced in the paper (Kennedy et al, 2016). 
+This work is to verify the proof of theorems introduced in the paper (Kennedy et al, 2017). 
 
 ## Guide to notation
 
