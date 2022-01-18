@@ -218,6 +218,7 @@ $\\$
 And
 
 $\phantom{spacespace} E\big[\int_{\mathcal{A}}\big\{\overline{\mu}(L,a)-\overline{m}(a)\big\}\overline{\omega}(a)da \big] = \int_{\mathcal{A}}\big\{\overline{m}(a)-\overline{m}(a)\big\}\overline{\omega}(a)da = 0$ by definition:
+$\\$
 
 $E\big[\int_{\mathcal{A}}\big\{\overline{\mu}(L,a)-\overline{m}(a)\big\}\overline{\omega}(a)da \big] = \int_{\mathcal{L}}\int_{\mathcal{A}}\big\{\overline{\mu}(L,a)-\overline{m}(a)\big\}\overline{\omega}(a) \ dadl$
 
