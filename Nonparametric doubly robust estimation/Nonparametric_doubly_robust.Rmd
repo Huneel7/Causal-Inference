@@ -52,12 +52,77 @@ on treatment A using off-the-shelf nonparametric regression or machine learning 
 
 ## Proof of Theorem 1
 
-By definition the efficient influence function for $\psi$ is the unique function $\phi(Z)$ that satisfies $\psi_\epsilon'(0) = E[\phi(Z)\ell_\epsilon'(Z;0)]$, where $\psi(\epsilon)$ represents the parameter of interest as a functional on the parametric submodel and $\ell(w \mid \overline{w};\epsilon$ = log$p(w \mid \overline{w};\epsilon)$ for any partition $(W, \overline{W}) \subseteq Z$. Therefore
+By definition the efficient influence function for $\psi$ is the unique function $\phi(Z)$ that satisfies $\psi_\epsilon'(0) = E[\phi(Z)\ell_\epsilon'(Z;0)]$, where $\psi(\epsilon)$ represents the parameter of interest as a functional on the parametric submodel and $\ell(w \mid \overline{w};\epsilon) = log \ p(w \mid \overline{w};\epsilon)$ for any partition $(W, \overline{W}) \subseteq Z$. Therefore
 
 $\phantom{spacespacespace} \ell_\epsilon'(z;\epsilon) = \ell_\epsilon'(y \mid l,a;\epsilon) + \ell_\epsilon'(a \mid l;\epsilon) + \ell_\epsilon'(l;\epsilon)$
+$\\$
 
 The authors give two important properties of such score functions of such score functions $\ell_\epsilon'(w\mid \overline{w};\epsilon)$ that will be used throughout this proof. First note that since $\ell_\epsilon(w\mid \overline{w};\epsilon)$ is a log transformation of $p(w\mid \overline{w};\epsilon)$, it follows that $\ell_\epsilon'(w\mid \overline{w};\epsilon) = p'(w\mid \overline{w};\epsilon)/p(w\mid \overline{w};\epsilon)/$. Similarly, as with any score function, note that $E[\ell_\epsilon'(W\mid \overline{W};\epsilon) \mid \overline{W}] = 0$ since 
 
 $\phantom{spacespacespace} \int_{\mathcal{W}}\ell'_\epsilon(w\mid \overline{w};0)dP(w \mid \overline{w}) = \int_{\mathcal{W}}dP'(w \mid \overline{w}) = \frac{\partial}{\partial \epsilon}\int_{\mathcal{W}}P(w \mid \overline{w}) = 0$
+$\\$
 
-The goal in this proof is to show that $\psi'_\epsilon(0) = E[\phi(Z)]\ell'_\epsilon(Z;0)$ for the proposed influence function $\phi(Z) = \xi(Z;\pi,u) - \psi + \int_{\mathcal{A}}\{\mu(L,a)-\int_{\mathcal{L}}\{\mu(l,a)dP(l)\}\omega(a)da$ given in the main text. First we will give an expression for $\psi'_\epsilon(0)$. By definition $\psi(\epsilon)$
+The goal in this proof is to show that $\psi'_\epsilon(0) = E[\phi(Z)]\ell'_\epsilon(Z;0)$ for the proposed influence function $\phi(Z) = \xi(Z;\pi,u) - \psi + \int_{\mathcal{A}}\{\mu(L,a)-\int_{\mathcal{L}}\{\mu(l,a)dP(l)\}\omega(a)da$. First we will give an expression for $\psi'_\epsilon(0)$. By definition $\psi(\epsilon) = \int_{\mathcal{A}}\theta(a;\epsilon)\omega(a;\epsilon)da$ because
+
+$\phantom{spacespacespace} \int_{\mathcal{L}}\mu(l,a)dP(l) = E[\mu(l,a)] = E[E(Y \mid L=l, A=a)] = E[Y^a]$.
+$\\$
+
+Hence, $\psi'_\epsilon(0) = \int_{\mathcal{A}}\{\theta'(a;0)\omega(a) + \theta(a)\omega'(a;0)\}da = E[\theta'_\epsilon(A;0) + \theta(A)\ell'_\epsilon(A;0)]$ because
+
+$\phantom{spacespacespace} \omega(a) = p(a)$ and $\ell'_\epsilon(A;0) = \frac{P'_\epsilon(A;0)}{P(A;0)} \iff \omega'_\epsilon(A;0) = \ell'_\epsilon(A;0)P(A;0)$
+$\\$
+
+Also since $\theta(a;\epsilon) = \int_{\mathcal{L}}\int_{\mathcal{Y}}y \ p(y \mid l,a;\epsilon)p(l;\epsilon) \ d\eta(y) \ d\upsilon(l)$, we have 
+
+$\theta'(a;0) = \int_{\mathcal{L}}\int_{\mathcal{Y}}y \ \{p'_\epsilon(y \mid l,a;0)p(l) + p(y \mid l,a)p'(l;0)\} \ d\eta(y) \ d\upsilon(l)$
+
+$\phantom{spaces} \ = \theta'(a;0) = \int_{\mathcal{L}}\int_{\mathcal{Y}}y \ \{\ell'_\epsilon(y \mid l,a;0)p(y \mid l,a)p(l) + p(y \mid l,a)\ell'_\epsilon(l;0)p(l)\} \ d\eta(y) \ d\upsilon(l)$
+
+$\phantom{spaces} \ = E\big[E\{Y\ell'_\epsilon(Y \mid L,A;0) \mid L, A=a\}\big] + E\big[\mu(L,a)\ell'_\epsilon(L;0)\big]$ 
+
+Therefore
+
+$\phantom{spacespace} \psi'_\epsilon(0) = \int_{\mathcal{A}} \Big(E\big[E\{Y\ell'_\epsilon(Y \mid L,A;0) \mid L, A=a\}\big] + E\big[\mu(L,a)\ell'_\epsilon(L;0)\big] + \theta(a)\ell'_\epsilon(a;0)\Big)\omega(a)da$
+$\\$
+
+Now we will consider the covariance
+
+$E[\phi(Z)\ell'_\epsilon(Z;0)] = E[\phi(Z)\{\ell'_\epsilon(Y \mid L,A;0) + \ell'_\epsilon(A,L;0)\}]$ because
+
+$\phantom{spacespacespace} \ell_\epsilon'(z;\epsilon) = \ell_\epsilon'(y \mid l,a;\epsilon) + \ell_\epsilon'(a \mid l;\epsilon) + \ell_\epsilon'(l;\epsilon) = \ell'_\epsilon(y \mid l,a;0) + \ell'_\epsilon(a,l;0)$
+
+which we need to show equals the earlier expression for $\psi'_\epsilon(0)$.
+$\\$
+
+The proposed efficient influence function given in the theorem 1 is 
+
+$\phantom{spacespacespace} \xi(Z;\pi,u) = \frac{Y-\mu(L,A)}{\pi(A \mid L)}\int_{\mathcal{L}}\pi(A \mid l)dP(l) + \int_{\mathcal{L}}\mu(l,a)dP(l)$
+
+where we define $m(a) = \int_{\mathcal{L}}\mu(l,a)dP(l)$ as the marginalized version of the regression function $\mu$, so that $m(a) = \theta(a)$ if $\mu$ is the true regression function.
+
+$\phantom{spacespace} m(a) = \int_{\mathcal{L}}\mu(l,a)dP(l) = \int_{\mathcal{L}}\int_{\mathcal{Y}}y \ dP(y \mid l,a)dP(l) =  \int_{\mathcal{L}}\int_{\mathcal{Y}}y \ p(y \mid l,a)p(l) \ d\eta(y) \ d\upsilon(l) = \theta(a)$
+$\\$
+\newpage
+
+Thus, $E\big[\phi(Z)\ell'_\epsilon(Y \mid L,A;0)\big]$ 
+
+$= \ E\Big(\Big[\frac{Y-\mu(L,A)}{\pi(A \mid L)/\omega(A)}+ \int_{\mathcal{A}}\{\mu(L,a-\theta(a)\}\omega(a) \ da + \theta(A)-\psi \Big]\ell'_\epsilon(Y \mid L,A;0)\Big)$
+
+$= \ E\Big[\frac{Y\ell'_\epsilon(Y \mid L,A;0)}{\pi(A \mid L)/\omega(A)}\Big]$
+
+$= \ E\Big[\frac{E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]}{\pi(A \mid L)/\omega(A)}\Big]$
+
+$= \ \int_{\mathcal{A}}E\big[E\{Y \ell'_\epsilon(Y \mid L,A;0)\mid L, A=a\} \big]\omega(a)\ da$
+
+where the first equality follows since
+
+$\phantom{spacespacespace} \phi(Z) =  \frac{Y-\mu(L,A)}{\pi(A \mid L)}\int_{\mathcal{L}}\pi(A \mid l)dP(l) + \int_{\mathcal{L}}\mu(l,a)dP(l) - \psi + \int_{\mathcal{A}}\{\mu(L,a) - \int_{\mathcal{L}}\mu(l,a)dP(l)\}\omega(a)da$
+
+$\phantom{spacespacespacespace} =  \frac{Y-\mu(L,A)}{\pi(A \mid L)/\omega(A)} + \theta(A) - \psi + \int_{\mathcal{A}}\{\mu(L,a) - \theta(A)\}\omega(a)da$
+, the second since $E\big[\ell'_\epsilon(Y \mid L,A;0)\mid L,A\big] = 0$, the third by iterated expectation conditioning on L and A, the last by iterated expectation conditioning on L gives:
+
+$E\Big(E\Big[\frac{E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]}{\pi(A \mid L)/\omega(A)}\mid L\Big]\Big)$
+
+$= \ E\Big(E\Big[\frac{E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]}{\pi(A \mid L)/E[\pi(A \mid L)]}\mid L\Big]\Big)$
+
+$= \ E\Big[\frac{E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]}{\pi(A \mid L)}E[\pi(A \mid L)]\Big]$
