@@ -167,7 +167,7 @@ $\therefore \phi$ is the efficient influence function.
 
 ## Double robutness of efficient influence function & mapping
 
-Here the goal is to show that $E[\phi(Z;\overline{\pi},\overline{\mu},\psi)] = 0$ if either $\overline{\pi} = \pi$ or $\overline{\mu} = \mu$, where $\phi(Z;\overline{\pi},\overline{\mu},\psi)$ is the influence function defined as in the main text as 
+Here the goal is to show that $E[\phi(Z;\overline{\pi},\overline{\mu},\psi)] = 0$ if either $\overline{\pi} = \pi$ or $\overline{\mu} = \mu$, where $\phi(Z;\overline{\pi},\overline{\mu},\psi)$ is the influence function defined as
 
 $\phantom{spacespace} \xi(Z;\overline{\pi},\overline{\mu}) - \psi + \int_{\mathcal{A}}\big\{\overline{\mu}(L,a) - \int_{\mathcal{L}}\overline{\mu}(l,a)dP(l)\big\}\int_{\mathcal{L}}\overline{\pi}(a,l)dP(l)da$,
 
@@ -177,7 +177,7 @@ $\phantom{spacespace} \xi(Z;\overline{\pi},\overline{\mu}) = \frac{Y-\overline{\
 
 First note that, letting $\overline{\omega}(a) = E\big[\overline{\pi}(a \mid L)\big]$ and $\overline{m}(a) = E\big[\overline{\mu}(L, a)\big]$, we have
 
-$E\big[\phi(Z;\overline{\pi},\overline{\mu}) \mid A=a\big]$
+$E\big[\xi(Z;\overline{\pi},\overline{\mu}) \mid A=a\big]$
 
 $= \ E\Big[\frac{Y-\overline{\mu}(L,A)}{\overline{\pi}(A \mid L)/\overline{\omega}(A)} + \overline{m}(A) \mid A=a \Big]$
 
@@ -187,4 +187,42 @@ $= \ \displaystyle\int_{\mathcal{L}}\big\{\mu(l,a)-\overline{\mu}(l,a)\big\}\fra
 
 $= \ \theta(a) + \displaystyle\int_{\mathcal{L}}\mu(l,a)-\overline{\mu}(l,a)\big\}\Big\{\frac{\pi(a \mid l)/\omega(a)}{\overline{\pi}(a \mid l)/\overline{\omega}(a)} -1\Big\} dP(l)$
 
-where the first equality follows by definition, the second equality follow by iterated expectation
+where the first equality follows by definition, the second equality follows because:
+
+$\phantom{spacespace} \int_{\mathcal{L}}\mu(l,a)dP(l \mid a) = E[u(l,a)] = E[Y^a]$
+
+the third follows since $p(l \mid a) = p(a \mid l)p(l)/p(a)$ and the fourth by rearranging:
+
+$\theta(a) - \int_{\mathcal{L}}\big\{\mu(l,a)-\overline{\mu}(l,a)\big\}dP(l) = \int_{\mathcal{L}}\mu(l,a)dP(l) - \int_{\mathcal{L}}\big\{\mu(l,a)-\overline{\mu}(l,a)\big\}dP(l) = \overline{m}(a)$
+$\\$
+
+The last line shows that $E\big[\xi(Z;\overline{\pi},\overline{\mu}) \mid A=a\big] = \theta(a)$ as long as either $\overline{\pi} = \pi$ or $\overline{\mu} = \mu$, since in either case the remainder is zero.
+
+Therefore if $\overline{\pi} = \pi$ or $\overline{\mu} = \mu$, we have:
+
+$\phantom{spacespace} \displaystyle\int_{\mathcal{A}}E\big[\xi(Z;\overline{\pi},\overline{\mu}) \mid A=a\big]\omega(a)da - \psi = \displaystyle\int_{\mathcal{A}}\theta(a)\omega(a)da - \psi$
+
+so that 
+
+$\phantom{spacespace} E[\phi(Z;\overline{\pi},\overline{\mu},\psi)] = E\big[\int_{\mathcal{A}}\big\{\overline{\mu}(L,a)-\overline{m}(a)\big\}\overline{\omega}(a)da \big]$ because
+
+$E[\phi(Z;\overline{\pi},\overline{\mu},\psi)]$
+
+$= \ E\Big[\xi(Z;\overline{\pi},\overline{\mu}) - \psi + \int_{\mathcal{A}}\big\{\overline{\mu}(L,a) - \int_{\mathcal{L}}\overline{\mu}(l,a)dP(l)\big\}\int_{\mathcal{L}}\overline{\pi}(a,l)dP(l)da\Big]$
+
+$= \ E\Big[E\big[\xi(Z;\overline{\pi},\overline{\mu})\mid A\big] - \psi + \int_{\mathcal{A}}\big\{\overline{\mu}(L,a) - \int_{\mathcal{L}}\overline{\mu}(l,a)dP(l)\big\}\int_{\mathcal{L}}\overline{\pi}(a,l)dP(l)da\Big]$
+
+$= \ E\Big[0 + \int_{\mathcal{A}}\big\{\overline{\mu}(L,a)-\overline{m}(a)\big\}\overline{\omega}(a)da\Big]$
+$\\$
+
+And
+
+$\phantom{spacespace} E\big[\int_{\mathcal{A}}\big\{\overline{\mu}(L,a)-\overline{m}(a)\big\}\overline{\omega}(a)da \big] = \int_{\mathcal{A}}\big\{\overline{m}(a)-\overline{m}(a)\big\}\overline{\omega}(a)da = 0$ by definition:
+
+$E\big[\int_{\mathcal{A}}\big\{\overline{\mu}(L,a)-\overline{m}(a)\big\}\overline{\omega}(a)da \big] = \int_{\mathcal{L}}\int_{\mathcal{A}}\big\{\overline{\mu}(L,a)-\overline{m}(a)\big\}\overline{\omega}(a) \ dadl$
+
+$= \ \int_{\mathcal{A}}\int_{\mathcal{L}}\big\{\overline{\mu}(L,a)-\overline{m}(a)\big\}dl \ \overline{\omega}(a)da (Fubini's \ theorem) = \int_{\mathcal{A}}E\big[\overline{\mu}(L,a)-\overline{m}(a)\big]\overline{\omega}(a)da$
+
+$= \ \int_{\mathcal{A}}\big\{\overline{m}(a)-\overline{m}(a)\big\}\overline{\omega}(a)da = 0$
+
+$\therefore E[\phi(Z;\overline{\pi},\overline{\mu},\psi)] = 0$ if either $\overline{\pi} = \pi$ or $\overline{\mu} = \mu$
