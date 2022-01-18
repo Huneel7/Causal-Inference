@@ -3,4 +3,61 @@ title: "Nonparametric dobuly robust estimation of continuous treatment"
 output: pdf_document
 ---
 
+This work is to verify the proof of theorems introduced in the paper (Kennedy et al, 2016). 
 
+## Guide to notation
+
+$Z = (L,A,Y)$ = observed data arising from distribution $P$ with density $p(z) = p(y \mid l, a)p(a \mid l)p(l)$ and support supp$(Z)$ = $\mathcal{Z} = \mathcal{L} \times \mathcal{A} \times \mathcal{Y}$
+
+$\mathbb{P}_n = \frac{1}{n}\sum_{i}\delta_{z_i}$ = empirical measure so that $\mathbb{P}_n{f(Z)} = \frac{1}{n}\sum_{i}f(z_i)$
+
+$\mathbb{P(f)}$ = $\mathbb{P\{f(Z)\}}$ = $\int_{\mathcal{Z}}f(z)dP(z)$ = expectation for new $Z$ treating $f$ as fixed (so $\mathbb{P(\hat{f})}$ is random if $\hat{f}$ depends on sample, in which case $\mathbb{P(\hat{f})}$ $\neq E(\hat{f})$)
+
+$\pi(a \mid l) = p(a \mid l) = 	\frac{\partial}{\partial a}P(A \leq a \mid l)$ = conditional density of treatment A
+
+$\hat{\pi}(a \mid l)$ = user-specified estimator of $\pi(a \mid l)$, which converges to limit $\overline{\pi}(a \mid l)$ that may not equal true $\pi$
+
+$\omega(a) = p(a) = \frac{\partial}{\partial a}P(A \leq a)$ = $E[\pi(a \mid L)] = \int_{\mathcal{L}}\pi(a \mid l)dP(l)$ = density of A
+
+$\hat{\omega(a)} = \mathbb{P_n}\{\hat{\pi}(a \mid l)\} = \int_{\mathcal{L}}\pi(a \mid l)dP(l)$ = estimator of $\omega$, which converges to limit $\overline{\omega}(a)$ that may not equal true $\omega$
+
+$\mu(l \mid a) = E(Y \mid L=l, A = a) = \int_{\mathcal{Y}}ydP(y \mid l,a)$ = conditional mean outcome
+
+$\hat{\mu}(l \mid a)$ = user-specified estimator of $\mu(l \mid a)$, which converges to limit $\overline{\mu}(l,a)$ that may not equal true $\mu$
+
+$\hat{m}(a) = \mathbb{P_n}\{\hat{\mu}(L,a)\} = \int_{\mathcal{L}}\hat{\mu}(l,a) d\mathbb{P_n}(l) = \frac{1}{n}\sum_i\hat{\mu}(l_i, a)$
+
+$\psi = \int_{\mathcal{A}}\int_{\mathcal{L}}\mu(l,a)\omega(a)dP(l)da$
+
+## Theorem 1. 
+
+Under a nonparametric model, the efficient influence function for $\psi$ is
+$\\$ $\xi(Z;\pi,u) - \psi + \int_{\mathcal{A}}\{\mu(L,a) - \int_{\mathcal{L}}\mu(l,a)dP(l)\}\omega(a)da$ where 
+
+$\phantom{spacespacespace} \xi(Z;\pi,u) = \frac{Y-\mu(L,A)}{\pi(A \mid L)}\int_{\mathcal{L}}\pi(A \mid l)dP(l) + \int_{\mathcal{L}}\mu(l,a)dP(l)$
+$\\$
+
+Importantly, the function $\xi(Z;\pi,u)$ satisfies its desired double robustness property, 
+$\\$ 
+i.e., that $E[\xi(Z;\pi,u) \mid A = a] = \theta(a)$ if either $\overline{\pi} = \pi$ or $\overline{\mu} = \mu$ where $\theta(a) = E(Y^a)$
+$\\$
+
+This motivates estimating the effect curve $\theta(a)$ by estimating the nuisance functions $(\pi, \mu)$, and then $\\$ regressing the estimated psuedo-outcome 
+
+$\phantom{spacespacespace} \hat{\xi}(Z;\hat{\pi},\hat{\mu}) = \frac{Y-\hat{\mu}(L,A)}{\hat{\pi}(A, L)}\int_{\mathcal{L}}\hat{\pi}(A,L)d\mathbb{P_n}(l) + \int_{\mathcal{L}}\hat{\mu}(l,a)d\mathbb{P_n}(l)$
+
+on treatment A using off-the-shelf nonparametric regression or machine learning methods.
+
+\newpage
+
+## Proof of Theorem 1
+
+By definition the efficient influence function for $\psi$ is the unique function $\phi(Z)$ that satisfies $\psi_\epsilon'(0) = E[\phi(Z)\ell_\epsilon'(Z;0)]$, where $\psi(\epsilon)$ represents the parameter of interest as a functional on the parametric submodel and $\ell(w \mid \overline{w};\epsilon$ = log$p(w \mid \overline{w};\epsilon)$ for any partition $(W, \overline{W}) \subseteq Z$. Therefore
+
+$\phantom{spacespacespace} \ell_\epsilon'(z;\epsilon) = \ell_\epsilon'(y \mid l,a;\epsilon) + \ell_\epsilon'(a \mid l;\epsilon) + \ell_\epsilon'(l;\epsilon)$
+
+The authors give two important properties of such score functions of such score functions $\ell_\epsilon'(w\mid \overline{w};\epsilon)$ that will be used throughout this proof. First note that since $\ell_\epsilon(w\mid \overline{w};\epsilon)$ is a log transformation of $p(w\mid \overline{w};\epsilon)$, it follows that $\ell_\epsilon'(w\mid \overline{w};\epsilon) = p'(w\mid \overline{w};\epsilon)/p(w\mid \overline{w};\epsilon)/$. Similarly, as with any score function, note that $E[\ell_\epsilon'(W\mid \overline{W};\epsilon) \mid \overline{W}] = 0$ since 
+
+$\phantom{spacespacespace} \int_{\mathcal{W}}\ell'_\epsilon(w\mid \overline{w};0)dP(w \mid \overline{w}) = \int_{\mathcal{W}}dP'(w \mid \overline{w}) = \frac{\partial}{\partial \epsilon}\int_{\mathcal{W}}P(w \mid \overline{w}) = 0$
+
+The goal in this proof is to show that $\psi'_\epsilon(0) = E[\phi(Z)]\ell'_\epsilon(Z;0)$ for the proposed influence function $\phi(Z) = \xi(Z;\pi,u) - \psi + \int_{\mathcal{A}}\{\mu(L,a)-\int_{\mathcal{L}}\{\mu(l,a)dP(l)\}\omega(a)da$ given in the main text. First we will give an expression for $\psi'_\epsilon(0)$. By definition $\psi(\epsilon)$
