@@ -1,0 +1,6 @@
+---
+title: "Nonparametric dobuly robust estimation of continuous treatment"
+output: pdf_document
+---
+
+
