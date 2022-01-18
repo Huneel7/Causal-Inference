@@ -44,7 +44,7 @@ $\\$
 
 This motivates estimating the effect curve $\theta(a)$ by estimating the nuisance functions $(\pi, \mu)$, and then $\\$ regressing the estimated psuedo-outcome 
 
-$\phantom{spacespacespace} \hat{\xi}(Z;\hat{\pi},\hat{\mu}) = \frac{Y-\hat{\mu}(L,A)}{\hat{\pi}(A, L)}\int_{\mathcal{L}}\hat{\pi}(A,L)d\mathbb{P_n}(l) + \int_{\mathcal{L}}\hat{\mu}(l,a)d\mathbb{P_n}(l)$
+$\phantom{spacespacespace} \hat{\xi}(Z;\hat{\pi},\hat{\mu}) = \frac{Y-\hat{\mu}(L,A)}{\hat{\pi}(A, L)}\int_{\mathcal{L}}\hat{\pi}(A,L)d\mathbb{P}_n(l) + \int_{\mathcal{L}}\hat{\mu}(l,a)d\mathbb{P}_n(l)$
 
 on treatment A using off-the-shelf nonparametric regression or machine learning methods.
 
@@ -119,6 +119,8 @@ where the first equality follows since
 $\phantom{spacespacespace} \phi(Z) =  \frac{Y-\mu(L,A)}{\pi(A \mid L)}\int_{\mathcal{L}}\pi(A \mid l)dP(l) + \int_{\mathcal{L}}\mu(l,a)dP(l) - \psi + \int_{\mathcal{A}}\{\mu(L,a) - \int_{\mathcal{L}}\mu(l,a)dP(l)\}\omega(a)da$
 
 $\phantom{spacespacespacespace} =  \frac{Y-\mu(L,A)}{\pi(A \mid L)/\omega(A)} + \theta(A) - \psi + \int_{\mathcal{A}}\{\mu(L,a) - \theta(A)\}\omega(a)da$
+$\\$
+
 , the second since $E\big[\ell'_\epsilon(Y \mid L,A;0)\mid L,A\big] = 0$, the third by iterated expectation conditioning on L and A, the last by iterated expectation conditioning on L gives:
 
 $E\Big(E\Big[\frac{E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]}{\pi(A \mid L)/\omega(A)}\mid L\Big]\Big)$
