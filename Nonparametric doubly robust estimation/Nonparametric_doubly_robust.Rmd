@@ -227,3 +227,7 @@ $= \ \int_{\mathcal{A}}\int_{\mathcal{L}}\big\{\overline{\mu}(L,a)-\overline{m}(
 $= \ \int_{\mathcal{A}}\big\{\overline{m}(a)-\overline{m}(a)\big\}\overline{\omega}(a)da = 0$
 
 $\therefore E[\phi(Z;\overline{\pi},\overline{\mu},\psi)] = 0$ if either $\overline{\pi} = \pi$ or $\overline{\mu} = \mu$
+
+## Reference
+
+Kennedy, E. H., Ma, Z., McHugh, M. D., & Small, D. S. (2017). Nonparametric methods for doubly robust estimation of continuous treatment effects. Journal of the Royal Statistical Society. Series B, Statistical methodology, 79(4), 1229–1245. https://doi.org/10.1111/rssb.12212
