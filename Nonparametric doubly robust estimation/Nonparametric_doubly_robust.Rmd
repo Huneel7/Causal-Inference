@@ -113,6 +113,7 @@ $= \ E\Big[\frac{Y\ell'_\epsilon(Y \mid L,A;0)}{\pi(A \mid L)/\omega(A)}\Big]$
 $= \ E\Big[\frac{E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]}{\pi(A \mid L)/\omega(A)}\Big]$
 
 $= \ \int_{\mathcal{A}}E\big[E\{Y \ell'_\epsilon(Y \mid L,A;0)\mid L, A=a\} \big]\omega(a)\ da$
+$\\$
 
 where the first equality follows since
 
@@ -121,15 +122,11 @@ $\phantom{spacespacespace} \phi(Z) =  \frac{Y-\mu(L,A)}{\pi(A \mid L)}\int_{\mat
 $\phantom{spacespacespacespace} =  \frac{Y-\mu(L,A)}{\pi(A \mid L)/\omega(A)} + \theta(A) - \psi + \int_{\mathcal{A}}\{\mu(L,a) - \theta(A)\}\omega(a)da$
 $\\$
 
-, the second since $E\big[\ell'_\epsilon(Y \mid L,A;0)\mid L,A\big] = 0$, the third by iterated expectation conditioning on L and A, the last by iterated expectation conditioning on L gives:
+the second since $E\big[\ell'_\epsilon(Y \mid L,A;0)\mid L,A\big] = 0$, the third by iterated expectation conditioning on L and A, the last by iterated expectation conditioning on L gives:
 
 $E\Big(E\Big[\frac{E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]}{\pi(A \mid L)/\omega(A)}\mid L\Big]\Big)$
 
 $= \ E\Big(E\Big[\frac{E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]}{\pi(A \mid L)/E[\pi(A \mid L)]}\mid L\Big]\Big)$
-
-$= \ E\Big[\frac{E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]}{\pi(A \mid L)}E\big[\pi(A \mid L)\big]\Big]$
-
-$= \ E\Big(E\Big[E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]\Big]\Big)$
 
 $= \ E\Big(E\Big[E[Y\ell'_\epsilon(Y \mid L,A;0)\mid L, A]\Big]\Big)$
 
@@ -143,16 +140,17 @@ $= \ E\Big[\Big\{\frac{Y-\mu(L,A)}{\pi(A \mid L)/\omega(A)}\Big\}\ell'_\epsilon(
 $\phantom{spacesp} + \int_{\mathcal{A}}\big\{\mu(L,a)-\theta(a)\big\}\omega(a)da\big\{\ell'_\epsilon(A \mid L;0)+\ell'_\epsilon(L;0)\big\}\Big]$
 
 $= \ E\Big[\theta(A)\epsilon(A;0) + \int_{\mathcal{A}}\mu(L,a)\ell'_\epsilon(L;0)\omega(a)da\Big]$
+$\\$
 
 since by definition $\ell'_\epsilon(A,L;0) = \ell'_\epsilon(L \mid A;0)+\ell'_\epsilon(A;0) = \ell'_\epsilon(A \mid L;0)+\ell'_\epsilon(L;0)$, and the equality used iterated expectation conditioning on L and A for the first term in the first line:
 
 $\phantom{spacespace} E[\ell'_\epsilon(A,L;0) \mid A, L] = \int_{\mathcal{L}}\ell'_\epsilon(A,l;0)dP(A,l) = \int_{\mathcal{L}}dP'_\epsilon(A,l) = \frac{\partial}{\partial \epsilon}\int_{\mathcal{L}}dP(A,L) = 0$
 
-, iterated expectation conditioning on A for the second term in the first line:
+iterated expectation conditioning on A for the second term in the first line:
 
 $\phantom{spacespace} E[\ell'_\epsilon(L\mid A;0)\mid A] = 0$ and $E[\ell'_\epsilon(A;0)\mid A] = 0$ 
 
-, and iterated expectation conditioning on L for the the second line.
+and iterated expectation conditioning on L for the the second line.
 $\\$
 
 Adding the expression $E\big[\phi(Z)\ell'_\epsilon(Y \mid L,A;0)\big]$  and $E[\phi(Z)\ell'_\epsilon(A,L;0)]$ gives:
