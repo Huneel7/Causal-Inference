@@ -64,7 +64,10 @@ $\\$
 
 The goal in this proof is to show that $\psi'_\epsilon(0) = E[\phi(Z)]\ell'_\epsilon(Z;0)$ for the proposed influence function $\phi(Z) = \xi(Z;\pi,u) - \psi + \int_{\mathcal{A}}\{\mu(L,a)-\int_{\mathcal{L}}\{\mu(l,a)dP(l)\}\omega(a)da$. First we will give an expression for $\psi'_\epsilon(0)$. By definition $\psi(\epsilon) = \int_{\mathcal{A}}\theta(a;\epsilon)\omega(a;\epsilon)da$ because
 
-$\phantom{spacespacespace} \int_{\mathcal{L}}\mu(l,a)dP(l) = E[\mu(l,a)] = E[E(Y \mid L=l, A=a)] = E[Y^a]$.
+$\phantom{spacespacespace} \psi = \int_{\mathcal{A}}\int_{\mathcal{L}}\mu(l,a)\omega(a)dP(l)da = \int_{\mathcal{A}}\int_{\mathcal{L}}\mu(l,a)dP(l)dP(a)$
+$\\$
+
+$\phantom{spacespacespaces} \ = E\big[E[\mu(l,a)]\big] = E[E(Y \mid L=l, A=a)] = E\big[E[Y^a]\big] = E[\theta(a)]$.
 $\\$
 
 Hence, $\psi'_\epsilon(0) = \int_{\mathcal{A}}\{\theta'(a;0)\omega(a) + \theta(a)\omega'(a;0)\}da = E[\theta'_\epsilon(A;0) + \theta(A)\ell'_\epsilon(A;0)]$ because
@@ -163,3 +166,25 @@ $\therefore \phi$ is the efficient influence function.
 
 
 ## Double robutness of efficient influence function & mapping
+
+Here the goal is to show that $E[\phi(Z;\overline{\pi},\overline{\mu},\psi)] = 0$ if either $\overline{\pi} = \pi$ or $\overline{\mu} = \mu$, where $\phi(Z;\overline{\pi},\overline{\mu},\psi)$ is the influence function defined as in the main text as 
+
+$\phantom{spacespace} \xi(Z;\overline{\pi},\overline{\mu}) - \psi + \int_{\mathcal{A}}\big\{\overline{\mu}(L,a) - \int_{\mathcal{L}}\overline{\mu}(l,a)dP(l)\big\}\int_{\mathcal{L}}\overline{\pi}(a,l)dP(l)da$,
+
+where
+
+$\phantom{spacespace} \xi(Z;\overline{\pi},\overline{\mu}) = \frac{Y-\overline{\mu}(L,A)}{\overline{\pi}(A \mid L)}\int_{\mathcal{L}}\overline{\pi}(A \mid l)dP(l) + \int_{\mathcal{L}}\overline{\mu}(l \mid A)dP(l)$
+
+First note that, letting $\overline{\omega}(a) = E\big[\overline{\pi}(a \mid L)\big]$ and $\overline{m}(a) = E\big[\overline{\mu}(L, a)\big]$, we have
+
+$E\big[\phi(Z;\overline{\pi},\overline{\mu}) \mid A=a\big]$
+
+$= \ E\Big[\frac{Y-\overline{\mu}(L,A)}{\overline{\pi}(A \mid L)/\overline{\omega}(A)} + \overline{m}(A) \mid A=a \Big]$
+
+$= \ \displaystyle\int_{\mathcal{L}}\frac{\mu(l,a)-\overline{\mu}(l,a)}{\overline{\pi}(a \mid l)/\overline{\omega}(a)}dP(l \mid a) + \overline{m}(a)$
+
+$= \ \displaystyle\int_{\mathcal{L}}\big\{\mu(l,a)-\overline{\mu}(l,a)\big\}\frac{\pi(a \mid l)/\omega(a)}{\overline{\pi}(a \mid l)/\overline{\omega}(a)} dP(l) + \overline{m}(a)$
+
+$= \ \theta(a) + \displaystyle\int_{\mathcal{L}}\mu(l,a)-\overline{\mu}(l,a)\big\}\Big\{\frac{\pi(a \mid l)/\omega(a)}{\overline{\pi}(a \mid l)/\overline{\omega}(a)} -1\Big\} dP(l)$
+
+where the first equality follows by definition, the second equality follow by iterated expectation
