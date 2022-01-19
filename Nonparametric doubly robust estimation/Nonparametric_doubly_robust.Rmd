@@ -57,7 +57,7 @@ By definition the efficient influence function for $\psi$ is the unique function
 $\phantom{spacespacespace} \ell_\epsilon'(z;\epsilon) = \ell_\epsilon'(y \mid l,a;\epsilon) + \ell_\epsilon'(a \mid l;\epsilon) + \ell_\epsilon'(l;\epsilon)$
 $\\$
 
-The authors give two important properties of such score functions of such score functions $\ell_\epsilon'(w\mid \overline{w};\epsilon)$ that will be used throughout this proof. First note that since $\ell_\epsilon(w\mid \overline{w};\epsilon)$ is a log transformation of $p(w\mid \overline{w};\epsilon)$, it follows that $\ell_\epsilon'(w\mid \overline{w};\epsilon) = p'(w\mid \overline{w};\epsilon)/p(w\mid \overline{w};\epsilon)/$. Similarly, as with any score function, note that $E[\ell_\epsilon'(W\mid \overline{W};\epsilon) \mid \overline{W}] = 0$ since 
+The authors give two important properties of such score functions of such score functions $\ell_\epsilon'(w\mid \overline{w};\epsilon)$ that will be used throughout this proof. First note that since $\ell_\epsilon(w\mid \overline{w};\epsilon)$ is a log transformation of $p(w\mid \overline{w};\epsilon)$, it follows that $\ell_\epsilon'(w\mid \overline{w};\epsilon) = p'(w\mid \overline{w};\epsilon)/p(w\mid \overline{w};\epsilon)$. Similarly, as with any score function, note that $E[\ell_\epsilon'(W\mid \overline{W};\epsilon) \mid \overline{W}] = 0$ since 
 
 $\phantom{spacespacespace} \int_{\mathcal{W}}\ell'_\epsilon(w\mid \overline{w};0)dP(w \mid \overline{w}) = \int_{\mathcal{W}}dP'(w \mid \overline{w}) = \frac{\partial}{\partial \epsilon}\int_{\mathcal{W}}P(w \mid \overline{w}) = 0$
 $\\$
