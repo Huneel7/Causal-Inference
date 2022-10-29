@@ -22,10 +22,6 @@ h1 { /* Header 1 */
 </style>
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ```{r, echo = FALSE, message = FALSE}
 library(dagitty)
 library(ggdag)
